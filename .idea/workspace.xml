@@ -4,11 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0f723887-bfa6-456f-b56f-c81a39f9b316" name="Changes" comment="Init master">
-      <change afterPath="$PROJECT_DIR$/bot/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/link-parser/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scrapper/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+    <list default="true" id="0f723887-bfa6-456f-b56f-c81a39f9b316" name="Changes" comment="Connected dependency org.jetbrains:annotations:23.1.0">
+      <change afterPath="$PROJECT_DIR$/bot/src/main/java/ru/tinkoff/edu/java/bot/BotApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bot/src/main/java/ru/tinkoff/edu/java/bot/configuration/ApplicationConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/bot/src/main/resources/application.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/link-parser/src/main/java/ru/tinkoff/edu/java/parser/GitHubAnswer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/link-parser/src/main/java/ru/tinkoff/edu/java/parser/GitHubParser.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/link-parser/src/main/java/ru/tinkoff/edu/java/parser/LinkParser.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/link-parser/src/main/java/ru/tinkoff/edu/java/parser/ParserAnswer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/link-parser/src/main/java/ru/tinkoff/edu/java/parser/ParserApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/link-parser/src/main/java/ru/tinkoff/edu/java/parser/StackOverflowAnswer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/link-parser/src/main/java/ru/tinkoff/edu/java/parser/StackOverflowParser.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/scrapper/src/main/java/ru/tinkoff/edu/java/scrapper/ScrapperApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/scrapper/src/main/java/ru/tinkoff/edu/java/scrapper/configuration/ApplicationConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/scrapper/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,6 +31,19 @@
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="4286f590-a8af-4956-84fd-484fd827aad1" />
+        <option name="url" value="https://github.com/OlgaMikO/stack-git-bot.git" />
+      </UrlAndAccount>
+    </option>
   </component>
   <component name="MavenImportPreferences">
     <option name="importingSettings">
@@ -38,6 +60,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
