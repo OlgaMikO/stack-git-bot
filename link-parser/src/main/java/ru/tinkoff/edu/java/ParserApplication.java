@@ -1,11 +1,17 @@
-package ru.tinkoff.edu.java.parser;
+package ru.tinkoff.edu.java;
+
+import ru.tinkoff.edu.java.parser.GitHubParser;
+import ru.tinkoff.edu.java.parser.LinkParser;
+import ru.tinkoff.edu.java.parser.NullParser;
+import ru.tinkoff.edu.java.parser.StackOverflowParser;
 
 import java.net.URI;
 
 public class ParserApplication {
 
     public static void main(String[] args) {
-        LinkParser githubParser = new GitHubParser(null);
+        LinkParser nullParser = new NullParser(null);
+        LinkParser githubParser = new GitHubParser(nullParser);
         LinkParser stackoverflowParser = new StackOverflowParser(githubParser);
         String githubLink = "https://github.com/OlgaMikO/stack-git-bot/tree/hw1";
         String stackoverflowLink = "https://stackoverflow.com/questions/62147477/java-records-stackoverflow-runtimeexception";

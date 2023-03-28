@@ -1,8 +1,11 @@
 package ru.tinkoff.edu.java.parser;
 
+import ru.tinkoff.edu.java.answer.GitHubAnswer;
+import ru.tinkoff.edu.java.answer.ParserAnswer;
+
 import java.net.URI;
 
-public class GitHubParser extends LinkParser{
+public class GitHubParser extends LinkParser {
 
     public GitHubParser(LinkParser next){
         super(next);
@@ -14,18 +17,12 @@ public class GitHubParser extends LinkParser{
             return new GitHubAnswer(path[1], path[2]);
         }
         else{
-            if(this.getNext() != null){
-                return this.getNext().parseLink(link);
-            }
+            return this.getNext().parseLink(link);
         }
-        return null;
     }
 
     public boolean matchLink(URI link){
-        if(link.getAuthority().equals("github.com")){
-            return true;
-        }
-        return false;
+        return link.getAuthority().equals("github.com");
     }
 
 }
