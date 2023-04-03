@@ -2,7 +2,7 @@ package ru.tinkoff.edu.java.bot.command;
 
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
-import ru.tinkoff.edu.java.bot.DataBase;
+import ru.tinkoff.edu.java.bot.DataBaseMock;
 
 import java.util.ArrayList;
 
@@ -22,7 +22,7 @@ public class ListCommand implements Command{
     @Override
     public SendMessage handle(Update update) {
         if (supports(update)){
-            ArrayList<String> list = DataBase.getInstance().getLinkList(update.message().chat().id());
+            ArrayList<String> list = DataBaseMock.getInstance().getLinkList(update.message().chat().id());
             if(list.isEmpty()){
                 return new SendMessage(update.message().chat().id(), "Список отслеживаемых ссылок пуст");
             }
@@ -33,6 +33,6 @@ public class ListCommand implements Command{
 
     @Override
     public boolean supports(Update update) {
-        return DataBase.getInstance().containUser(update.message().chat().id());
+        return DataBaseMock.getInstance().containUser(update.message().chat().id());
     }
 }

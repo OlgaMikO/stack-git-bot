@@ -2,7 +2,7 @@ package ru.tinkoff.edu.java.bot.command;
 
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
-import ru.tinkoff.edu.java.bot.DataBase;
+import ru.tinkoff.edu.java.bot.DataBaseHolder;
 
 public class StartCommand implements Command {
 
@@ -20,7 +20,7 @@ public class StartCommand implements Command {
 
     @Override
     public SendMessage handle(Update update) {
-        DataBase.getInstance().addUser(update.message().chat().id());
+        DataBaseHolder.get().addUser(update.message().chat().id());
         return new SendMessage(update.message().chat().id(), responseMessage);
     }
 
