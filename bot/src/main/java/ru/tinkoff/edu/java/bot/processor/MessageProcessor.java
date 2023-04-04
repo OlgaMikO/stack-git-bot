@@ -2,7 +2,9 @@ package ru.tinkoff.edu.java.bot.processor;
 
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
+import ru.tinkoff.edu.java.bot.DataBaseMock;
 import ru.tinkoff.edu.java.bot.command.*;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -10,6 +12,11 @@ import java.util.List;
 public class MessageProcessor implements UserMessageProcessor {
 
     private HashMap<String, Command> commandsMap;
+
+    public MessageProcessor() {
+        initCommandsMap();
+    }
+
     @Override
     public List<? extends Command> commands() {
         List<Command> commands = new ArrayList<>();
@@ -17,19 +24,18 @@ public class MessageProcessor implements UserMessageProcessor {
         commands.add(new StartCommand());
         commands.add(new TrackCommand());
         commands.add(new UntrackCommand());
-        commands.add(new ListCommand());
+        commands.add(new ListCommand(DataBaseMock.getInstance()));
+        return commands;
+    }
+
+    public void initCommandsMap() {
         commandsMap = new HashMap<>();
-        commandsMap.put("/help", new HelpCommand());
-        commandsMap.put("/start", new StartCommand());
-        commandsMap.put("/track", new TrackCommand());
-        commandsMap.put("/untrack", new UntrackCommand());
-        commandsMap.put("/list", new ListCommand());
         StringBuilder stringBuilder = new StringBuilder();
-        for (Command cmd : commands) {
-            stringBuilder.append(cmd.command()).append(" - ").append(cmd.description()).append("\n");
+        for (Command command : commands()) {
+            commandsMap.put(command.command(), command);
+            stringBuilder.append(command.command()).append(" - ").append(command.description()).append("\n");
         }
         commandsMap.put("/help", new HelpCommand(stringBuilder.toString()));
-        return commands;
     }
 
     @Override
@@ -39,7 +45,7 @@ public class MessageProcessor implements UserMessageProcessor {
 
     public Command parseCommand(Update update) {
         String command = update.message().text().split(" ")[0];
-        if(commandsMap.containsKey(command)){
+        if (commandsMap.containsKey(command)) {
             return commandsMap.get(command);
         }
         return new UnknownCommand();
