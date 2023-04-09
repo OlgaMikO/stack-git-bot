@@ -1,3 +1,7 @@
+--liquibase formatted sql
+
+--changeset olga_mik_o:1
+
 CREATE TABLE chats
 (
     Id BIGINT PRIMARY KEY
