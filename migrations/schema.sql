@@ -1,0 +1,12 @@
+CREATE TABLE chats
+(
+    Id BIGINT PRIMARY KEY
+);
+
+CREATE TABLE links
+(
+    Id SERIAL PRIMARY KEY,
+    URL TEXT,
+    Chat BIGINT,
+    FOREIGN KEY (Chat) REFERENCES chats (Id) ON DELETE CASCADE
+);
