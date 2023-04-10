@@ -10,10 +10,13 @@ import ru.tinkoff.edu.java.bot.processor.MessageProcessor;
 public class Bot {
     private TelegramBot telegramBot;
 
+
     private MessageProcessor messageProcessor;
 
-    public Bot(String token){
-        messageProcessor = new MessageProcessor();
+
+    public Bot(String token, MessageProcessor processor){
+        messageProcessor = processor;
+        messageProcessor.initCommandsMap();
         BotCommand[] array = new BotCommand[messageProcessor.commands().size()];
         for(int i = 0; i < array.length; i++){
             array[i] = messageProcessor.commands().get(i).toApiCommand();
