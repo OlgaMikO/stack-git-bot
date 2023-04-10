@@ -10,7 +10,7 @@ import java.net.URI;
 public class UntrackCommand implements Command {
 
     private final AllLinkParser parser = new AllLinkParser();
-    private final String responseMessage = "Ссылка не отслеживается";
+    private String responseMessage;
 
     @Override
     public String command() {
@@ -27,11 +27,14 @@ public class UntrackCommand implements Command {
         if (supports(update)) {
             if (DataBaseHolder.get().containUser(update.message().chat().id())) {
                 DataBaseHolder.get().deleteLink((update.message().chat().id()), update.message().text().split(" ")[1]);
-                return new SendMessage(update.message().chat().id(), responseMessage);
+                responseMessage = "Ссылка не отслеживается";
+            } else {
+                responseMessage = "Пользователь не зарегистрирован";
             }
-            return new SendMessage(update.message().chat().id(), "Пользователь не зарегистрирован");
+        } else {
+            responseMessage = "Неправильный формат ссылки";
         }
-        return new SendMessage(update.message().chat().id(), "Неправильный формат ссылки");
+        return new SendMessage(update.message().chat().id(), responseMessage);
     }
 
     @Override

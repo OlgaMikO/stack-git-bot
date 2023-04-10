@@ -10,6 +10,8 @@ public class ListCommand implements Command {
 
     private final IDataBase dataBase;
 
+    private String responseMessage;
+
     public ListCommand(IDataBase dataBase) {
         this.dataBase = dataBase;
     }
@@ -29,11 +31,14 @@ public class ListCommand implements Command {
         if (supports(update)) {
             ArrayList<String> list = dataBase.getLinkList(update.message().chat().id());
             if (list.isEmpty()) {
-                return new SendMessage(update.message().chat().id(), "Список отслеживаемых ссылок пуст");
+                responseMessage = "Список отслеживаемых ссылок пуст";
+            } else {
+                responseMessage = list.toString();
             }
-            return new SendMessage(update.message().chat().id(), list.toString());
+        } else {
+            responseMessage = "Пользователь не зарегистрирован";
         }
-        return new SendMessage(update.message().chat().id(), "Пользователь не зарегистрирован");
+        return new SendMessage(update.message().chat().id(), responseMessage);
     }
 
     @Override
