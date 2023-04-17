@@ -20,6 +20,7 @@ import ru.tinkoff.edu.java.scrapper.dto.Link;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.net.URI;
 import java.nio.file.Path;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -59,7 +60,7 @@ public class JdbcLinkTest extends IntegrationEnvironment{
     void addTest() {
         Chat chat = new Chat(1L);
         chatDao.add(chat);
-        Link link = new Link("https://github.com/OlgaMikO/stack-git-bot", chat.getId());
+        Link link = new Link(URI.create("https://github.com/OlgaMikO/stack-git-bot"), chat.getId());
         link.setId(linkDao.add(link));
         List<Link> linkList = jdbcTemplate.query("select * from links", linkDao.getRowMapper());
         List<Chat> chatList = jdbcTemplate.query("select * from chats", chatDao.getRowMapper());
@@ -74,7 +75,7 @@ public class JdbcLinkTest extends IntegrationEnvironment{
     void removeTest() {
         Chat chat = new Chat(1L);
         chatDao.add(chat);
-        Link link = new Link("https://github.com/OlgaMikO/stack-git-bot", chat.getId());
+        Link link = new Link(URI.create("https://github.com/OlgaMikO/stack-git-bot"), chat.getId());
         link.setId(linkDao.add(link));
         linkDao.remove(link.getId());
         chatDao.remove(chat.getId());
@@ -90,7 +91,7 @@ public class JdbcLinkTest extends IntegrationEnvironment{
     void findAllTest() {
         Chat chat = new Chat(1L);
         chatDao.add(chat);
-        Link link = new Link("https://github.com/OlgaMikO/stack-git-bot", 1L);
+        Link link = new Link(URI.create("https://github.com/OlgaMikO/stack-git-bot"), 1L);
         link.setId(linkDao.add(link));
         List<Link> linkList = linkDao.findAll();
         List<Chat> chatList = chatDao.findAll();

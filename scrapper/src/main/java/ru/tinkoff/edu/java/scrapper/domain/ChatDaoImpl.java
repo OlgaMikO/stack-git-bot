@@ -28,7 +28,7 @@ public class ChatDaoImpl extends ChatDao {
     @Override
     public int add(Chat chat) {
         String SQL = "insert into chats values (?)";
-        return jdbcTemplate.update(SQL, pstmt -> pstmt.setLong(1, chat.getId()));
+        return jdbcTemplate.update(SQL, ps -> ps.setLong(1, chat.getId()));
     }
 
     @Override
@@ -41,5 +41,10 @@ public class ChatDaoImpl extends ChatDao {
     public List<Chat> findAll() {
         String SQL = "select * from chats";
         return jdbcTemplate.query(SQL, rowMapper());
+    }
+
+    public Chat findById(Long id){
+        String SQL = "select * from chats where id = ?";
+        return jdbcTemplate.query(SQL, ps -> ps.setLong(1, id), rowMapper()).get(0);
     }
 }

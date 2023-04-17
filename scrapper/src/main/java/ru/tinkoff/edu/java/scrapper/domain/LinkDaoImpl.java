@@ -1,5 +1,6 @@
 package ru.tinkoff.edu.java.scrapper.domain;
 
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -7,8 +8,10 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 import ru.tinkoff.edu.java.scrapper.dto.Link;
 
+import java.net.URI;
 import java.sql.*;
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 public class LinkDaoImpl extends LinkDao {
@@ -24,7 +27,7 @@ public class LinkDaoImpl extends LinkDao {
         return (resultSet, rowNum) -> {
             Link link = new Link();
             link.setId(resultSet.getLong("Id"));
-            link.setUrl(resultSet.getString("URL"));
+            link.setUrl(URI.create(resultSet.getString("URL")));
             link.setChat(resultSet.getLong("Chat"));
             return link;
         };
@@ -39,20 +42,20 @@ public class LinkDaoImpl extends LinkDao {
         String SQL = "insert into links(URL, Chat) values (?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
-        jdbcTemplate.update(connection -> {
-            PreparedStatement ps = connection
-                    .prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1, link.getUrl());
-            ps.setLong(2, link.getChat());
-            return ps;
-        }, keyHolder);
-        try{
-            return Long.parseLong(keyHolder.getKeys().get("id").toString());
+        try {
+            jdbcTemplate.update(connection -> {
+                PreparedStatement ps = connection
+                        .prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
+                ps.setString(1, link.getUrl().toString());
+                ps.setLong(2, link.getChat());
+                return ps;
+            }, keyHolder);
         }
-        catch (NullPointerException e){
+        catch (DuplicateKeyException e){
             System.out.println(e.getMessage());
             return -1;
         }
+        return Long.parseLong(Objects.requireNonNull(keyHolder.getKeys()).get("id").toString());
     }
 
     @Override
