@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 import ru.tinkoff.edu.java.scrapper.domain.ChatDaoImpl;
@@ -54,27 +55,29 @@ public class JdbcLinkTest extends IntegrationEnvironment{
 
     @Test
     @Transactional("transactionManager")
-    //@Rollback
+    @Rollback
     void addTest() {
         Chat chat = new Chat(1L);
         chatDao.add(chat);
-        Link link = new Link(0L, "https://github.com/OlgaMikO/stack-git-bot", 1L);
-        linkDao.add(link);
+        Link link = new Link("https://github.com/OlgaMikO/stack-git-bot", chat.getId());
+        link.setId(linkDao.add(link));
         List<Link> linkList = jdbcTemplate.query("select * from links", linkDao.getRowMapper());
         List<Chat> chatList = jdbcTemplate.query("select * from chats", chatDao.getRowMapper());
+        System.out.println(chatList);
         assertEquals(link, linkList.get(0));
         assertEquals(chat, chatList.get(0));
     }
 
     @Transactional
-    //@Rollback
+    @Rollback
     @Test
     void removeTest() {
         Chat chat = new Chat(1L);
         chatDao.add(chat);
-        Link link = new Link(0L, "https://github.com/OlgaMikO/stack-git-bot", 1L);
-        linkDao.add(link);
-        chatDao.remove(1L);
+        Link link = new Link("https://github.com/OlgaMikO/stack-git-bot", chat.getId());
+        link.setId(linkDao.add(link));
+        linkDao.remove(link.getId());
+        chatDao.remove(chat.getId());
         List<Link> linkList = jdbcTemplate.query("select * from links", linkDao.getRowMapper());
         List<Chat> chatList = jdbcTemplate.query("select * from chats", chatDao.getRowMapper());
         assertEquals(new ArrayList<Link>(), linkList);
@@ -82,16 +85,15 @@ public class JdbcLinkTest extends IntegrationEnvironment{
     }
 
     @Transactional
-    //@Rollback
+    @Rollback
     @Test
     void findAllTest() {
         Chat chat = new Chat(1L);
         chatDao.add(chat);
-        Link link = new Link(0L, "https://github.com/OlgaMikO/stack-git-bot", 1L);
-        linkDao.add(link);
+        Link link = new Link("https://github.com/OlgaMikO/stack-git-bot", 1L);
+        link.setId(linkDao.add(link));
         List<Link> linkList = linkDao.findAll();
         List<Chat> chatList = chatDao.findAll();
-
         assertEquals(linkList, List.of(link));
         assertEquals(chatList, List.of(chat));
     }

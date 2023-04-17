@@ -28,7 +28,7 @@ public class ChatDaoImpl extends ChatDao {
     @Override
     public int add(Chat chat) {
         String SQL = "insert into chats values (?)";
-        return jdbcTemplate.update(SQL, chat.getId());
+        return jdbcTemplate.update(SQL, pstmt -> pstmt.setLong(1, chat.getId()));
     }
 
     @Override

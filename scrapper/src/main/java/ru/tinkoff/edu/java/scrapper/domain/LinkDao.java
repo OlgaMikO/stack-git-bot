@@ -6,7 +6,7 @@ import java.util.List;
 
 public abstract class LinkDao {
 
-    public abstract int add(Link link);
+    public abstract long add(Link link);
 
     public abstract int remove(Long id);
 

@@ -1,11 +1,9 @@
 package ru.tinkoff.edu.java.scrapper.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class Link {
 
@@ -15,4 +13,8 @@ public class Link {
 
     private Long chat;
 
+    public Link(String url, Long chat){
+        this.url = url;
+        this.chat = chat;
+    }
 }
