@@ -1,14 +1,7 @@
 package ru.tinkoff.edu.java.scrapper.dto.request;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.NonNull;
 
-@Data
-@AllArgsConstructor
-public class AddLinkRequest {
-
-    @NonNull
-    private String link;
-
+public record AddLinkRequest(@NonNull @JsonProperty("link") String link) {
 }

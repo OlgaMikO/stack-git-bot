@@ -12,4 +12,5 @@ public record ClientConfiguration(@NotNull String scrapperBaseUrl) {
     public ScrapperClient scrapperClient() {
         return new ScrapperClient(scrapperBaseUrl);
     }
+
 }

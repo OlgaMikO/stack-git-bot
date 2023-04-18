@@ -12,4 +12,6 @@ public abstract class ChatDao {
 
     public abstract List<Chat> findAll();
 
+    public abstract Chat findById(Long id);
+
 }

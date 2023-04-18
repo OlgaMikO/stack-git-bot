@@ -81,7 +81,7 @@ public class ScrapperApiController {
 
     @PostMapping("/links")
     public LinkResponse addLinkTracking(@RequestHeader("Tg-Chat-Id") Long id, @RequestBody AddLinkRequest link) {
-        Link addLink = linkService.add(id, URI.create(link.getLink()));
+        Link addLink = linkService.add(id, URI.create(link.link()));
         return new LinkResponse(addLink.getId(), addLink.getUrl().toString());
 //        if (exampleID.contains(id)) {
 //            return new LinkResponse(id, link.getLink());
@@ -91,7 +91,7 @@ public class ScrapperApiController {
 
     @DeleteMapping("/links")
     public ResponseEntity<LinkResponse> deleteLinkTracking(@RequestHeader("Tg-Chat-Id") Long id, @RequestBody RemoveLinkRequest link) {
-        Link removeLink = linkService.remove(id, URI.create(link.getLink()));
+        Link removeLink = linkService.remove(id, URI.create(link.link()));
         return ResponseEntity.ok(new LinkResponse(removeLink.getId(), removeLink.getUrl().toString()));
 //        if (exampleID.isEmpty()) {
 //            throw new BadRequestException("Некорректные параметры запроса");

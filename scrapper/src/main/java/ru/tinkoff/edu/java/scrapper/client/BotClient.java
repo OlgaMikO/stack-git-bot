@@ -1,7 +1,7 @@
 package ru.tinkoff.edu.java.scrapper.client;
 
 import org.springframework.web.reactive.function.client.WebClient;
-import ru.tinkoff.edu.java.bot.dto.LinkUpdateRequest;
+import ru.tinkoff.edu.java.scrapper.dto.request.LinkUpdateRequest;
 import ru.tinkoff.edu.java.scrapper.dto.response.BotResponse;
 
 public class BotClient implements IBotClient{

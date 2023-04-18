@@ -1,7 +1,7 @@
 package ru.tinkoff.edu.java.scrapper.service.jdbc;
 
-import ru.tinkoff.edu.java.scrapper.domain.ChatDaoImpl;
-import ru.tinkoff.edu.java.scrapper.domain.LinkDaoImpl;
+import ru.tinkoff.edu.java.scrapper.domain.ChatDao;
+import ru.tinkoff.edu.java.scrapper.domain.LinkDao;
 import ru.tinkoff.edu.java.scrapper.dto.entity.Link;
 import ru.tinkoff.edu.java.scrapper.exception.NotFoundScrapperException;
 import ru.tinkoff.edu.java.scrapper.service.LinkService;
@@ -12,11 +12,11 @@ import java.util.List;
 
 public class JdbcLinkService implements LinkService {
 
-    private final ChatDaoImpl chatDao;
+    private final ChatDao chatDao;
 
-    private final LinkDaoImpl linkDao;
+    private final LinkDao linkDao;
 
-    public JdbcLinkService(ChatDaoImpl chatDao, LinkDaoImpl linkDao) {
+    public JdbcLinkService(ChatDao chatDao, LinkDao linkDao) {
         this.chatDao = chatDao;
         this.linkDao = linkDao;
     }
@@ -63,4 +63,7 @@ public class JdbcLinkService implements LinkService {
         }
         return links;
     }
+
+
+
 }

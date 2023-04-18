@@ -1,6 +1,7 @@
 package ru.tinkoff.edu.java.scrapper;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -11,11 +12,18 @@ import ru.tinkoff.edu.java.scrapper.service.LinkUpdaterImpl;
 @Configuration
 public class LinkUpdaterScheduler {
 
-    LinkUpdaterImpl linkUpdater = new LinkUpdaterImpl();
+    private final LinkUpdaterImpl linkUpdater;
+
+    @Autowired
+    public LinkUpdaterScheduler(LinkUpdaterImpl linkUpdater) {
+        this.linkUpdater = linkUpdater;
+    }
 
     @Scheduled(fixedDelayString = "#{@getInterval}")
     public void update(){
-        log.info(String.format("Обновление данных - %d", linkUpdater.update()));
+        linkUpdater.update();
+        //log.info(String.format("Обновление данных\n%s", ));
+        log.info("Обновление данных\n");
     }
 
 }

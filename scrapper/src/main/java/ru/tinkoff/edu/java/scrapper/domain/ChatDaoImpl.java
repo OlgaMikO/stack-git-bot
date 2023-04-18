@@ -43,6 +43,7 @@ public class ChatDaoImpl extends ChatDao {
         return jdbcTemplate.query(SQL, rowMapper());
     }
 
+    @Override
     public Chat findById(Long id){
         String SQL = "select * from chats where id = ?";
         List<Chat> list = jdbcTemplate.query(SQL, ps -> ps.setLong(1, id), rowMapper());

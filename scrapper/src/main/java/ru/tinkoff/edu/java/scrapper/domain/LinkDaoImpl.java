@@ -11,11 +11,16 @@ import ru.tinkoff.edu.java.scrapper.dto.entity.Link;
 import java.net.URI;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.sql.Timestamp;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Objects;
 
 @Repository
 public class LinkDaoImpl extends LinkDao {
+
+    private final int countOldLinks = 10;
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -30,6 +35,8 @@ public class LinkDaoImpl extends LinkDao {
             link.setId(resultSet.getLong("Id"));
             link.setUrl(URI.create(resultSet.getString("URL")));
             link.setChat(resultSet.getLong("Chat"));
+            link.setLastActivity(OffsetDateTime.of(resultSet.getTimestamp("Last_activity").toLocalDateTime(), ZoneOffset.UTC));
+            link.setLastUpdate(OffsetDateTime.of(resultSet.getTimestamp("Last_update").toLocalDateTime(), ZoneOffset.UTC));
             return link;
         };
     }
@@ -40,7 +47,7 @@ public class LinkDaoImpl extends LinkDao {
 
     @Override
     public long add(Link link) {
-        String SQL = "insert into links(URL, Chat) values (?, ?)";
+        String SQL = "insert into links(URL, Chat, Last_update, Last_activity) values (?, ?, ?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         try {
@@ -49,6 +56,8 @@ public class LinkDaoImpl extends LinkDao {
                         .prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
                 ps.setString(1, link.getUrl().toString());
                 ps.setLong(2, link.getChat());
+                ps.setTimestamp(3, Timestamp.valueOf(link.getLastUpdate().atZoneSameInstant(ZoneOffset.UTC).toLocalDateTime()));
+                ps.setTimestamp(4, Timestamp.valueOf(link.getLastActivity().atZoneSameInstant(ZoneOffset.UTC).toLocalDateTime()));
                 return ps;
             }, keyHolder);
         } catch (DuplicateKeyException e) {
@@ -70,12 +79,34 @@ public class LinkDaoImpl extends LinkDao {
         return jdbcTemplate.query(SQL, rowMapper());
     }
 
+    @Override
     public Link find(URI url, Long chatId) {
-        String SQL = "select * from chats where url = ? and chat = ?";
+        String SQL = "select * from links where url = ? and chat = ?";
         return jdbcTemplate.query(SQL, ps -> {
                     ps.setString(1, url.toString());
                     ps.setLong(2, chatId);
                 },
                 rowMapper()).get(0);
     }
+
+    public List<Link> orderByLastUpdate(){
+        String SQL = "select * from links order by last_update limit 10";
+        return jdbcTemplate.query(SQL, rowMapper());
+    }
+
+    @Override
+    public List<Link> findOldLinks(){
+        return orderByLastUpdate();
+    }
+
+    @Override
+    public int update(Long id, OffsetDateTime time) {
+        String SQL = "update links set last_update = ? where id = ?";
+        return jdbcTemplate.update(SQL, ps -> {
+                    ps.setTimestamp(1, Timestamp.valueOf(time.atZoneSameInstant(ZoneOffset.UTC).toLocalDateTime()));
+                    ps.setLong(2, id);
+                });
+    }
+
+
 }

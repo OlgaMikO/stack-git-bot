@@ -21,4 +21,8 @@ public class GitHubResponse {
     @JsonProperty(value = "created_at")
     private OffsetDateTime createdAt;
 
+    @NotNull
+    @JsonProperty(value = "updated_at")
+    private OffsetDateTime updatedAt;
+
 }

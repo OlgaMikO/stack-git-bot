@@ -2,11 +2,15 @@ package ru.tinkoff.edu.java.answer;
 
 public final class StackOverflowAnswer extends ParserAnswer {
 
-    private long questionID;
+    private final long questionID;
 
     public StackOverflowAnswer(long questionID) {
-        super();
+        super("StackOverflowAnswer");
         this.questionID = questionID;
+    }
+
+    public long getQuestionID() {
+        return questionID;
     }
 
     @Override

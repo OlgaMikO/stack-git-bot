@@ -1,9 +1,8 @@
 package ru.tinkoff.edu.java.scrapper.dto.request;
 
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.NonNull;
 
-@Data
-public class RemoveLinkRequest {
+public record RemoveLinkRequest(@NonNull @JsonProperty("link") String link) {
 
-    private String link;
 }

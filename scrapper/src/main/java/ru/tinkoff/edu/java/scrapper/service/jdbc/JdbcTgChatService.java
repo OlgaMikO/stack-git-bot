@@ -1,16 +1,16 @@
 package ru.tinkoff.edu.java.scrapper.service.jdbc;
 
 import org.springframework.dao.DuplicateKeyException;
-import ru.tinkoff.edu.java.scrapper.domain.ChatDaoImpl;
+import ru.tinkoff.edu.java.scrapper.domain.ChatDao;
 import ru.tinkoff.edu.java.scrapper.dto.entity.Chat;
 import ru.tinkoff.edu.java.scrapper.exception.NotFoundScrapperException;
 import ru.tinkoff.edu.java.scrapper.service.TgChatService;
 
 public class JdbcTgChatService implements TgChatService {
 
-    private final ChatDaoImpl chatDao;
+    private final ChatDao chatDao;
 
-    public JdbcTgChatService(ChatDaoImpl chatDao) {
+    public JdbcTgChatService(ChatDao chatDao) {
         this.chatDao = chatDao;
     }
 
