@@ -1,11 +1,11 @@
 package ru.tinkoff.edu.java.scrapper;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import ru.tinkoff.edu.java.scrapper.client.github.GitHubApiClient;
 import ru.tinkoff.edu.java.scrapper.client.stackoverflow.StackOverflowApiClient;
 import ru.tinkoff.edu.java.scrapper.configuration.ApplicationConfig;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import ru.tinkoff.edu.java.scrapper.configuration.ClientConfiguration;
 
 @SpringBootApplication

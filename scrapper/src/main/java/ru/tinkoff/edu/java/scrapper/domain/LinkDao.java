@@ -1,6 +1,6 @@
 package ru.tinkoff.edu.java.scrapper.domain;
 
-import ru.tinkoff.edu.java.scrapper.dto.Link;
+import ru.tinkoff.edu.java.scrapper.dto.entity.Link;
 
 import java.util.List;
 

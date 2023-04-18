@@ -3,7 +3,7 @@ package ru.tinkoff.edu.java.scrapper.domain;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-import ru.tinkoff.edu.java.scrapper.dto.Chat;
+import ru.tinkoff.edu.java.scrapper.dto.entity.Chat;
 
 import java.util.List;
 
@@ -45,6 +45,10 @@ public class ChatDaoImpl extends ChatDao {
 
     public Chat findById(Long id){
         String SQL = "select * from chats where id = ?";
-        return jdbcTemplate.query(SQL, ps -> ps.setLong(1, id), rowMapper()).get(0);
+        List<Chat> list = jdbcTemplate.query(SQL, ps -> ps.setLong(1, id), rowMapper());
+        if(list.isEmpty()){
+            return null;
+        }
+        return list.get(0);
     }
 }

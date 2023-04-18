@@ -15,8 +15,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 import ru.tinkoff.edu.java.scrapper.domain.ChatDaoImpl;
 import ru.tinkoff.edu.java.scrapper.domain.LinkDaoImpl;
-import ru.tinkoff.edu.java.scrapper.dto.Chat;
-import ru.tinkoff.edu.java.scrapper.dto.Link;
+import ru.tinkoff.edu.java.scrapper.dto.entity.Chat;
+import ru.tinkoff.edu.java.scrapper.dto.entity.Link;
 
 import java.io.File;
 import java.io.FileNotFoundException;
