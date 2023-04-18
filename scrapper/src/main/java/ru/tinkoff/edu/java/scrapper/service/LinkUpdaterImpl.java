@@ -18,6 +18,7 @@ import ru.tinkoff.edu.java.scrapper.dto.response.StackOverflowResponse;
 
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class LinkUpdaterImpl implements LinkUpdater {
@@ -57,25 +58,36 @@ public class LinkUpdaterImpl implements LinkUpdater {
             }
             if(change != null){
                 resultChanges.append(change).append("\n");
-                botClient.linkUpdate(new LinkUpdateRequest(link, "Обновление данных"));
+                botClient.linkUpdate(new LinkUpdateRequest(link, change));
             }
-            linkDao.update(link.getId(), OffsetDateTime.now());
         }
         return resultChanges.toString();
     }
 
     public String stackOverflowUpdate(Link link, ParserAnswer answer) {
+        StringBuilder stringBuilder = new StringBuilder();
         StackOverflowResponse response = stackOverflowClient.fetchQuestion(((StackOverflowAnswer) answer).getQuestionID());
         if (response.getActivity().isAfter(link.getLastActivity())) {
-            return "Данные изменились";
+            if(!Objects.equals(response.getAnswerCount(), link.getAnswerCount())){
+                if(link.getAnswerCount() != null){
+                    stringBuilder.append("Появился новый ответ");
+                }
+            }
+            if(!Objects.equals(response.getCommentCount(), link.getCommentCount())){
+                if(link.getCommentCount() != null){
+                    stringBuilder.append("Появился новый комментарий");
+                }
+            }
+            linkDao.update(link.getId(), OffsetDateTime.now(), response.getAnswerCount(), response.getCommentCount());
         }
-        return null;
+        return stringBuilder.toString();
     }
 
     public String gitHubUpdate(Link link, ParserAnswer answer) {
         GitHubResponse response = gitHubClient.fetchRepository(((GitHubAnswer) answer).getUser(),
                 ((GitHubAnswer) answer).getRepository());
         if (response.getUpdatedAt().isAfter(link.getLastActivity())) {
+            linkDao.update(link.getId(), OffsetDateTime.now(), 0, 0);
             return "Данные изменились";
         }
         return null;

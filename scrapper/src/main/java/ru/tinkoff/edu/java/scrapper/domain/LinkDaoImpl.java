@@ -90,8 +90,9 @@ public class LinkDaoImpl extends LinkDao {
     }
 
     public List<Link> orderByLastUpdate(){
-        String SQL = "select * from links order by last_update limit 10";
-        return jdbcTemplate.query(SQL, rowMapper());
+        String SQL = "select * from links order by last_update limit ?";
+        return jdbcTemplate.query(SQL, ps -> ps.setInt(1, countOldLinks),
+                rowMapper());
     }
 
     @Override
@@ -100,11 +101,13 @@ public class LinkDaoImpl extends LinkDao {
     }
 
     @Override
-    public int update(Long id, OffsetDateTime time) {
-        String SQL = "update links set last_update = ? where id = ?";
+    public int update(Long id, OffsetDateTime time, Integer answerCount, Integer commentCount) {
+        String SQL = "update links set last_update = ?, answer_count = ?, comment_count = ? where id = ?";
         return jdbcTemplate.update(SQL, ps -> {
                     ps.setTimestamp(1, Timestamp.valueOf(time.atZoneSameInstant(ZoneOffset.UTC).toLocalDateTime()));
-                    ps.setLong(2, id);
+                    ps.setLong(2, answerCount);
+                    ps.setLong(3, commentCount);
+                    ps.setLong(4, id);
                 });
     }
 

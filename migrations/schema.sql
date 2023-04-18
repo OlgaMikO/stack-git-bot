@@ -14,6 +14,8 @@ CREATE TABLE links
     Chat BIGINT,
     Last_update TIMESTAMP WITH TIME ZONE,
     Last_activity TIMESTAMP WITH TIME ZONE,
+    Answer_count INTEGER,
+    Comment_count INTEGER,
     UNIQUE (URL, Chat),
     FOREIGN KEY (Chat) REFERENCES chats (Id) ON DELETE CASCADE
 );
