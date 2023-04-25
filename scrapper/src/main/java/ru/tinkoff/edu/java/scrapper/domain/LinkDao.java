@@ -14,9 +14,9 @@ public abstract class LinkDao {
 
     public abstract List<Link> findAll();
 
-    public abstract List<Link> findOldLinks();
+    public abstract List<Link> findOldLinks(Long minutes);
 
     public abstract int update(Long id, OffsetDateTime time, Integer answerCount, Integer commentCount);
 
-    public abstract Link find(URI url, Long chatId);
+    public abstract Link findByUrlAndChatId(URI url, Long chatId);
 }

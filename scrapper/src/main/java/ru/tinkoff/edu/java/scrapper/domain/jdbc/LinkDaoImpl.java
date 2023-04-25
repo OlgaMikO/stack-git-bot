@@ -1,4 +1,4 @@
-package ru.tinkoff.edu.java.scrapper.domain;
+package ru.tinkoff.edu.java.scrapper.domain.jdbc;
 
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import ru.tinkoff.edu.java.scrapper.domain.LinkDao;
 import ru.tinkoff.edu.java.scrapper.dto.entity.Link;
 
 import java.net.URI;
@@ -80,7 +81,7 @@ public class LinkDaoImpl extends LinkDao {
     }
 
     @Override
-    public Link find(URI url, Long chatId) {
+    public Link findByUrlAndChatId(URI url, Long chatId) {
         String SQL = "select * from links where url = ? and chat = ?";
         return jdbcTemplate.query(SQL, ps -> {
                     ps.setString(1, url.toString());
@@ -96,7 +97,7 @@ public class LinkDaoImpl extends LinkDao {
     }
 
     @Override
-    public List<Link> findOldLinks(){
+    public List<Link> findOldLinks(Long minutes){
         return orderByLastUpdate();
     }
 

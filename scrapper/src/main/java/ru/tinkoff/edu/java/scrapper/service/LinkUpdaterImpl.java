@@ -46,7 +46,7 @@ public class LinkUpdaterImpl implements LinkUpdater {
 
     @Override
     public String update() {
-        List<Link> oldLinks = linkDao.findOldLinks();
+        List<Link> oldLinks = linkDao.findOldLinks(0L);
         ParserAnswer answer;
         StringBuilder resultChanges = new StringBuilder();
         String change = "";
