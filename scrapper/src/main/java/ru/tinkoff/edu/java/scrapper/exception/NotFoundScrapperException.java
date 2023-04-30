@@ -12,8 +12,17 @@ public class NotFoundScrapperException extends RuntimeException{
 
     private String description;
 
+    private Long id;
+
     public NotFoundScrapperException(String description){
         super(description);
         this.description = description;
     }
+
+    public NotFoundScrapperException(String description, Long id){
+        super(description);
+        this.description = description;
+        this.id = id;
+    }
+
 }

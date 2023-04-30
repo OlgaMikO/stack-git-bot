@@ -23,6 +23,7 @@ import java.io.FileNotFoundException;
 import java.net.URI;
 import java.nio.file.Path;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -33,7 +34,6 @@ public class JpaTest extends IntegrationEnvironment {
 
     @Autowired
     private JpaChatDao jpaChatDao;
-
 
     @Autowired
     private JpaLinkDao jpaLinkDao;
@@ -67,5 +67,22 @@ public class JpaTest extends IntegrationEnvironment {
         System.out.println(chatList);
         assertEquals(link, linkList.get(0));
         assertEquals(chat, chatList.get(0));
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    void removeTest(){
+        Chat chat = new Chat(1L);
+        jpaChatDao.add(chat);
+        Link link = new Link(URI.create("https://github.com/OlgaMikO/stack-git-bot"), chat.getId());
+        link.setId(jpaLinkDao.add(link));
+        jpaLinkDao.remove(link.getId());
+        jpaChatDao.remove(chat.getId());
+        List<Link> linkList = jpaLinkDao.findAll();
+        List<Chat> chatList = jpaChatDao.findAll();
+        System.out.println(chatList);
+        assertEquals(new ArrayList<Link>(), linkList);
+        assertEquals(new ArrayList<Chat>(), chatList);
     }
 }

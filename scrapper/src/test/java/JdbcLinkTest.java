@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.tinkoff.edu.java.scrapper.ScrapperApplication;
 import ru.tinkoff.edu.java.scrapper.domain.jdbc.ChatDaoImpl;
 import ru.tinkoff.edu.java.scrapper.domain.jdbc.LinkDaoImpl;
+import ru.tinkoff.edu.java.scrapper.domain.jdbc.Mapper;
 import ru.tinkoff.edu.java.scrapper.dto.entity.Chat;
 import ru.tinkoff.edu.java.scrapper.dto.entity.Link;
 
@@ -63,8 +64,8 @@ public class JdbcLinkTest extends IntegrationEnvironment {
         chatDao.add(chat);
         Link link = new Link(URI.create("https://github.com/OlgaMikO/stack-git-bot"), chat.getId());
         link.setId(linkDao.add(link));
-        List<Link> linkList = jdbcTemplate.query("select * from links", linkDao.getRowMapper());
-        List<Chat> chatList = jdbcTemplate.query("select * from chats", chatDao.getRowMapper());
+        List<Link> linkList = jdbcTemplate.query("select * from links", Mapper.getInstance().getLinkRowMapper());
+        List<Chat> chatList = jdbcTemplate.query("select * from chats", Mapper.getInstance().getChatRowMapper());
         System.out.println(chatList);
         assertEquals(link, linkList.get(0));
         assertEquals(chat, chatList.get(0));
@@ -80,8 +81,8 @@ public class JdbcLinkTest extends IntegrationEnvironment {
         link.setId(linkDao.add(link));
         linkDao.remove(link.getId());
         chatDao.remove(chat.getId());
-        List<Link> linkList = jdbcTemplate.query("select * from links", linkDao.getRowMapper());
-        List<Chat> chatList = jdbcTemplate.query("select * from chats", chatDao.getRowMapper());
+        List<Link> linkList = jdbcTemplate.query("select * from links", Mapper.getInstance().getLinkRowMapper());
+        List<Chat> chatList = jdbcTemplate.query("select * from chats", Mapper.getInstance().getChatRowMapper());
         assertEquals(new ArrayList<Link>(), linkList);
         assertEquals(new ArrayList<Chat>(), chatList);
     }

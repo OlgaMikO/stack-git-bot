@@ -2,7 +2,6 @@ package ru.tinkoff.edu.java.scrapper.domain.jdbc;
 
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
@@ -30,21 +29,6 @@ public class LinkDaoImpl extends LinkDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    private RowMapper<Link> rowMapper() {
-        return (resultSet, rowNum) -> {
-            Link link = new Link();
-            link.setId(resultSet.getLong("Id"));
-            link.setUrl(URI.create(resultSet.getString("URL")));
-            link.setChat(resultSet.getLong("Chat"));
-            link.setLastActivity(OffsetDateTime.of(resultSet.getTimestamp("Last_activity").toLocalDateTime(), ZoneOffset.UTC));
-            link.setLastUpdate(OffsetDateTime.of(resultSet.getTimestamp("Last_update").toLocalDateTime(), ZoneOffset.UTC));
-            return link;
-        };
-    }
-
-    public RowMapper<Link> getRowMapper() {
-        return rowMapper();
-    }
 
     @Override
     public long add(Link link) {
@@ -77,7 +61,7 @@ public class LinkDaoImpl extends LinkDao {
     @Override
     public List<Link> findAll() {
         String SQL = "select * from links";
-        return jdbcTemplate.query(SQL, rowMapper());
+        return jdbcTemplate.query(SQL, Mapper.getInstance().getLinkRowMapper());
     }
 
     @Override
@@ -87,17 +71,17 @@ public class LinkDaoImpl extends LinkDao {
                     ps.setString(1, url.toString());
                     ps.setLong(2, chatId);
                 },
-                rowMapper()).get(0);
+                Mapper.getInstance().getLinkRowMapper()).get(0);
     }
 
-    public List<Link> orderByLastUpdate(){
+    public List<Link> orderByLastUpdate() {
         String SQL = "select * from links order by last_update limit ?";
         return jdbcTemplate.query(SQL, ps -> ps.setInt(1, countOldLinks),
-                rowMapper());
+                Mapper.getInstance().getLinkRowMapper());
     }
 
     @Override
-    public List<Link> findOldLinks(Long minutes){
+    public List<Link> findOldLinks(Long minutes) {
         return orderByLastUpdate();
     }
 
@@ -105,11 +89,11 @@ public class LinkDaoImpl extends LinkDao {
     public int update(Long id, OffsetDateTime time, Integer answerCount, Integer commentCount) {
         String SQL = "update links set last_update = ?, answer_count = ?, comment_count = ? where id = ?";
         return jdbcTemplate.update(SQL, ps -> {
-                    ps.setTimestamp(1, Timestamp.valueOf(time.atZoneSameInstant(ZoneOffset.UTC).toLocalDateTime()));
-                    ps.setLong(2, answerCount);
-                    ps.setLong(3, commentCount);
-                    ps.setLong(4, id);
-                });
+            ps.setTimestamp(1, Timestamp.valueOf(time.atZoneSameInstant(ZoneOffset.UTC).toLocalDateTime()));
+            ps.setLong(2, answerCount);
+            ps.setLong(3, commentCount);
+            ps.setLong(4, id);
+        });
     }
 
 
