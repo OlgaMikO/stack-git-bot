@@ -1,5 +1,6 @@
 package ru.tinkoff.edu.java.scrapper.domain.jdbc;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -20,13 +21,15 @@ import java.util.Objects;
 @Repository
 public class LinkDaoImpl extends LinkDao {
 
-    private final int countOldLinks = 10;
+    private final int countOldLinks;
 
     private final JdbcTemplate jdbcTemplate;
 
-    public LinkDaoImpl(JdbcTemplate jdbcTemplate) {
+    @Autowired
+    public LinkDaoImpl(JdbcTemplate jdbcTemplate, int countOldLinks) {
         super();
         this.jdbcTemplate = jdbcTemplate;
+        this.countOldLinks = countOldLinks;
     }
 
 

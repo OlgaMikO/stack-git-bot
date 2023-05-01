@@ -26,7 +26,7 @@ public class JdbcTgChatService implements TgChatService {
     @Override
     public void unregister(long tgChatId) {
         if (chatDao.findById(tgChatId) == null) {
-            throw new NotFoundScrapperException("Пользователь не найден");
+            throw new NotFoundScrapperException(tgChatId);
         } else {
             chatDao.remove(tgChatId);
         }

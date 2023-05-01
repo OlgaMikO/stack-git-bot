@@ -1,6 +1,7 @@
 package ru.tinkoff.edu.java.scrapper.configuration;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,9 +15,12 @@ import ru.tinkoff.edu.java.scrapper.service.jdbc.JdbcTgChatService;
 import javax.sql.DataSource;
 
 @Configuration
-@ConditionalOnProperty(prefix = "app", name = "database-access-type", havingValue = "jdbc")
+@ConditionalOnProperty(prefix = "scrapper.app", name = "database-access-type", havingValue = "jdbc")
 @RequiredArgsConstructor
 public class JdbcAccessConfiguration {
+
+    @Value("${scrapper.app.count-old-links}")
+    int countOldLinks;
 
     @Bean
     public DataSource getDataSource() {
@@ -35,7 +39,7 @@ public class JdbcAccessConfiguration {
 
     @Bean
     public LinkDaoImpl getJdbcLinkRepository() {
-        return new LinkDaoImpl(getJdbcTemplate());
+        return new LinkDaoImpl(getJdbcTemplate(), getCountOldLinks());
     }
 
     @Bean
@@ -54,5 +58,9 @@ public class JdbcAccessConfiguration {
         return new JdbcTgChatService(getJdbcChatRepository());
     }
 
+    @Bean
+    public int getCountOldLinks(){
+        return countOldLinks;
+    }
 
 }

@@ -25,7 +25,7 @@ public class JdbcLinkService implements LinkService {
     public Link add(long tgChatId, URI url) {
         Link link = new Link(url, tgChatId);
         if (chatDao.findById(tgChatId) == null) {
-            throw new NotFoundScrapperException("Пользователь не найден", tgChatId);
+            throw new NotFoundScrapperException(tgChatId);
         } else {
             link.setId(linkDao.add(link));
         }
@@ -39,7 +39,7 @@ public class JdbcLinkService implements LinkService {
     public Link remove(long tgChatId, URI url) {
         Link link = new Link(url, tgChatId);
         if (chatDao.findById(tgChatId) == null) {
-            throw new NotFoundScrapperException("Пользователь не найден", tgChatId);
+            throw new NotFoundScrapperException(tgChatId);
         } else {
             Long id = linkDao.findByUrlAndChatId(url, tgChatId).getId();
             if (id == null) {
@@ -56,7 +56,7 @@ public class JdbcLinkService implements LinkService {
     public Collection<Link> listAll(long tgChatId) {
         List<Link> links;
         if (chatDao.findById(tgChatId) == null) {
-            throw new NotFoundScrapperException("Пользователь не найден", tgChatId);
+            throw new NotFoundScrapperException(tgChatId);
         } else {
             links = linkDao.findAll();
         }

@@ -10,7 +10,7 @@ import ru.tinkoff.edu.java.scrapper.domain.jpa.JpaLinkDao;
 import ru.tinkoff.edu.java.scrapper.domain.jpa.LinkRepository;
 
 @Configuration
-@ConditionalOnProperty(prefix = "app", name = "database-access-type", havingValue = "jpa")
+@ConditionalOnProperty(prefix = "scrapper.app", name = "database-access-type", havingValue = "jpa")
 @RequiredArgsConstructor
 public class JpaAccessConfiguration {
 
