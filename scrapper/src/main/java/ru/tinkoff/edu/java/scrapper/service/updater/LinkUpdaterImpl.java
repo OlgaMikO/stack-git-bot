@@ -1,4 +1,4 @@
-package ru.tinkoff.edu.java.scrapper.service;
+package ru.tinkoff.edu.java.scrapper.service.updater;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -7,7 +7,7 @@ import ru.tinkoff.edu.java.AllLinkParser;
 import ru.tinkoff.edu.java.answer.GitHubAnswer;
 import ru.tinkoff.edu.java.answer.ParserAnswer;
 import ru.tinkoff.edu.java.answer.StackOverflowAnswer;
-import ru.tinkoff.edu.java.scrapper.client.BotClient;
+import ru.tinkoff.edu.java.scrapper.client.IBotClient;
 import ru.tinkoff.edu.java.scrapper.client.github.GitHubClient;
 import ru.tinkoff.edu.java.scrapper.client.stackoverflow.StackOverflowClient;
 import ru.tinkoff.edu.java.scrapper.domain.LinkDao;
@@ -31,13 +31,13 @@ public class LinkUpdaterImpl implements LinkUpdater {
 
     private final StackOverflowClient stackOverflowClient;
 
-    private final BotClient botClient;
+    private final IBotClient botClient;
 
     @Autowired
     public LinkUpdaterImpl(@Qualifier("linkDaoImpl") LinkDao linkDao,
                            GitHubClient gitHubClient,
                            StackOverflowClient stackOverflowClient,
-                           BotClient botClient) {
+                           IBotClient botClient) {
         this.linkDao = linkDao;
         this.gitHubClient = gitHubClient;
         this.stackOverflowClient = stackOverflowClient;

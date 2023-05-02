@@ -6,11 +6,12 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import ru.tinkoff.edu.java.scrapper.client.github.GitHubApiClient;
 import ru.tinkoff.edu.java.scrapper.client.stackoverflow.StackOverflowApiClient;
 import ru.tinkoff.edu.java.scrapper.configuration.ApplicationConfig;
-import ru.tinkoff.edu.java.scrapper.configuration.ClientConfigProperties;
-import ru.tinkoff.edu.java.scrapper.configuration.ClientConfiguration;
+import ru.tinkoff.edu.java.scrapper.configuration.client.ClientConfigProperties;
+import ru.tinkoff.edu.java.scrapper.configuration.client.ClientConfiguration;
+import ru.tinkoff.edu.java.scrapper.configuration.rabbitmq.RabbitMQProperties;
 
 @SpringBootApplication
-@EnableConfigurationProperties({ApplicationConfig.class, ClientConfigProperties.class})
+@EnableConfigurationProperties({ApplicationConfig.class, ClientConfigProperties.class, RabbitMQProperties.class})
 public class ScrapperApplication {
         public static void main(String[] args) {
                 var ctx = SpringApplication.run(ScrapperApplication.class, args);
@@ -22,7 +23,5 @@ public class ScrapperApplication {
 
                 StackOverflowApiClient stackOverflowApiClient = ctx.getBean(ClientConfiguration.class).stackOverflowApiClient();
                 System.out.println(stackOverflowApiClient.fetchQuestion(75868411L));
-
-
         }
 }

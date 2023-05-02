@@ -1,16 +1,16 @@
-package ru.tinkoff.edu.java.scrapper.configuration;
+package ru.tinkoff.edu.java.scrapper.configuration.database;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import ru.tinkoff.edu.java.scrapper.configuration.ApplicationConfig;
 import ru.tinkoff.edu.java.scrapper.domain.jdbc.ChatDaoImpl;
 import ru.tinkoff.edu.java.scrapper.domain.jdbc.LinkDaoImpl;
-import ru.tinkoff.edu.java.scrapper.service.jdbc.JdbcLinkService;
-import ru.tinkoff.edu.java.scrapper.service.jdbc.JdbcTgChatService;
+import ru.tinkoff.edu.java.scrapper.service.database.jdbc.JdbcLinkService;
+import ru.tinkoff.edu.java.scrapper.service.database.jdbc.JdbcTgChatService;
 
 import javax.sql.DataSource;
 
@@ -19,8 +19,7 @@ import javax.sql.DataSource;
 @RequiredArgsConstructor
 public class JdbcAccessConfiguration {
 
-    @Value("${scrapper.app.count-old-links}")
-    int countOldLinks;
+    private final ApplicationConfig config;
 
     @Bean
     public DataSource getDataSource() {
@@ -39,7 +38,7 @@ public class JdbcAccessConfiguration {
 
     @Bean
     public LinkDaoImpl getJdbcLinkRepository() {
-        return new LinkDaoImpl(getJdbcTemplate(), getCountOldLinks());
+        return new LinkDaoImpl(getJdbcTemplate(), config.countOldLinks());
     }
 
     @Bean
@@ -59,8 +58,8 @@ public class JdbcAccessConfiguration {
     }
 
     @Bean
-    public int getCountOldLinks(){
-        return countOldLinks;
+    public Integer getCountOldLinks(){
+        return config.countOldLinks();
     }
 
 }

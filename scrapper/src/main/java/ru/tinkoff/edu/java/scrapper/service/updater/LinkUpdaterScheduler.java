@@ -1,11 +1,11 @@
-package ru.tinkoff.edu.java.scrapper;
+package ru.tinkoff.edu.java.scrapper.service.updater;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
-import ru.tinkoff.edu.java.scrapper.service.LinkUpdaterImpl;
+import ru.tinkoff.edu.java.scrapper.service.updater.LinkUpdaterImpl;
 
 @Slf4j
 @EnableScheduling
