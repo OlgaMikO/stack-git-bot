@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import ru.tinkoff.edu.java.scrapper.client.github.GitHubApiClient;
 import ru.tinkoff.edu.java.scrapper.client.stackoverflow.StackOverflowApiClient;
-import ru.tinkoff.edu.java.scrapper.configuration.ApplicationConfig;
 
 @Configuration
 @RequiredArgsConstructor
