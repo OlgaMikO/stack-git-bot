@@ -1,10 +1,7 @@
 package ru.tinkoff.edu.java.scrapper.configuration.rabbitmq;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.DirectExchange;
-import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.ClassMapper;
@@ -54,7 +51,9 @@ public class RabbitMQConfiguration {
 
     @Bean
     public Queue queue() {
-        return new Queue(rabbitMQProperties.queueName());
+        return QueueBuilder.durable(rabbitMQProperties.queueName()).
+                withArgument("x-dead-letter-exchange", rabbitMQProperties.exchangeName() + ".dlx")
+                .build();
     }
 
     @Bean

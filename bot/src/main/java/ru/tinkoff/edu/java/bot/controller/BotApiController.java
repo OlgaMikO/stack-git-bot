@@ -2,7 +2,6 @@ package ru.tinkoff.edu.java.bot.controller;
 
 import com.pengrad.telegrambot.request.SendMessage;
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +25,7 @@ public class BotApiController {
 
     @PostMapping("/updates")
     public ResponseEntity<?> linkUpdate(@RequestBody @Valid LinkUpdateRequest request) {
-        if(exampleID.contains(request.getId())){
+        if (exampleID.contains(request.getId())) {
             bot.execute(new SendMessage(request.getId(), String.format("Обновление ссылки: %s", request.getUrl())));
             return ResponseEntity
                     .status(HttpStatusCode.valueOf(200))
