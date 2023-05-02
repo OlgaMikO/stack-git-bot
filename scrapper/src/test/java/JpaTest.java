@@ -29,7 +29,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-@ContextConfiguration(classes = TestConfig.class)
+@ContextConfiguration(classes = ScrapperApplication.class)
 public class JpaTest extends IntegrationEnvironment {
 
     @Autowired

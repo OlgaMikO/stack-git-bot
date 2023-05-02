@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
-import ru.tinkoff.edu.java.scrapper.service.updater.LinkUpdaterImpl;
 
 @Slf4j
 @EnableScheduling
@@ -20,7 +19,7 @@ public class LinkUpdaterScheduler {
     }
 
     @Scheduled(fixedDelayString = "#{@getInterval}")
-    public void update(){
+    public void update() {
         linkUpdater.update();
         //log.info(String.format("Обновление данных\n%s", ));
         log.info("Обновление данных\n");

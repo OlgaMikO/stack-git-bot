@@ -19,6 +19,7 @@ public class BotApiController {
 
     @PostMapping("/updates")
     public ResponseEntity<?> linkUpdate(@RequestBody @Valid LinkUpdateRequest request) {
+
         if(exampleID.contains(request.getId())){
             return ResponseEntity
                     .status(HttpStatusCode.valueOf(200))

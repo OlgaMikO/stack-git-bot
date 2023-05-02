@@ -4,6 +4,7 @@ import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.model.BotCommand;
 import com.pengrad.telegrambot.model.Update;
+import com.pengrad.telegrambot.request.SendMessage;
 import com.pengrad.telegrambot.request.SetMyCommands;
 import ru.tinkoff.edu.java.bot.processor.MessageProcessor;
 
@@ -12,7 +13,6 @@ public class Bot {
 
 
     private MessageProcessor messageProcessor;
-
 
     public Bot(String token, MessageProcessor processor){
         messageProcessor = processor;
@@ -34,5 +34,9 @@ public class Bot {
             }
             return UpdatesListener.CONFIRMED_UPDATES_ALL;
         });
+    }
+
+    public void execute(SendMessage message){
+        telegramBot.execute(message);
     }
 }
