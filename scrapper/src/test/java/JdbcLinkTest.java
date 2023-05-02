@@ -8,6 +8,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.Rollback;
@@ -31,13 +32,17 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-@ContextConfiguration(classes = ScrapperApplication.class)
+@ContextConfiguration(classes = {ScrapperApplication.class, IntegrationEnvironment.Config.class})
 public class JdbcLinkTest extends IntegrationEnvironment {
 
     @Autowired
+    @Qualifier("getJdbcLinkRepository")
     private LinkDaoImpl linkDao;
+
     @Autowired
+    @Qualifier("getJdbcChatRepository")
     private ChatDaoImpl chatDao;
+
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
@@ -47,7 +52,7 @@ public class JdbcLinkTest extends IntegrationEnvironment {
                 .getParent()
                 .getParent();
         ResourceAccessor accessor = new DirectoryResourceAccessor(path);
-        Liquibase liquibase = new liquibase.Liquibase("migrations/master.xml", accessor, IntegrationEnvironment.getDatabase());
+        Liquibase liquibase = new Liquibase("migrations/master.xml", accessor, IntegrationEnvironment.getDatabase());
         liquibase.update(new Contexts(), new LabelExpression());
     }
 

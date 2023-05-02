@@ -24,12 +24,11 @@ public class Link {
 
     private Integer commentCount;
 
-    private final AllLinkParser parser = new AllLinkParser();
-
     public Link(URI url, Long chat){
         this.url = url;
         this.chat = chat;
         this.lastUpdate = OffsetDateTime.now();
+        this.lastActivity = OffsetDateTime.now();
     }
 
 }
