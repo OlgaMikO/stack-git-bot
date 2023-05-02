@@ -2,8 +2,10 @@ import liquibase.database.Database;
 import liquibase.database.DatabaseFactory;
 import liquibase.database.jvm.JdbcConnection;
 import liquibase.exception.DatabaseException;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.testcontainers.containers.PostgreSQLContainer;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -21,6 +23,8 @@ public abstract class IntegrationEnvironment {
     private static final Connection connection;
 
     private static final Database database;
+
+    private static final DataSource dataSource;
 
     static {
         POSTGRES_SQL_CONTAINER = new PostgreSQLContainer<>(IMAGE_VERSION);
@@ -43,6 +47,13 @@ public abstract class IntegrationEnvironment {
         } catch (DatabaseException e) {
             throw new RuntimeException(e);
         }
+
+        DriverManagerDataSource driverManagerDataSource = new DriverManagerDataSource();
+        driverManagerDataSource.setUrl(url);
+        driverManagerDataSource.setUsername(user);
+        driverManagerDataSource.setPassword(password);
+        driverManagerDataSource.setDriverClassName(POSTGRES_SQL_CONTAINER.getDriverClassName());
+        dataSource = driverManagerDataSource;
     }
 
     public static Connection getConnection(){
@@ -51,5 +62,9 @@ public abstract class IntegrationEnvironment {
 
     public static Database getDatabase(){
         return database;
+    }
+
+    public static DataSource getDataSource(){
+        return dataSource;
     }
 }

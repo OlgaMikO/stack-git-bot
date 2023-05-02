@@ -1,4 +1,4 @@
-package ru.tinkoff.edu.java.scrapper.dto;
+package ru.tinkoff.edu.java.scrapper.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
@@ -20,5 +20,9 @@ public class GitHubResponse {
     @NotNull
     @JsonProperty(value = "created_at")
     private OffsetDateTime createdAt;
+
+    @NotNull
+    @JsonProperty(value = "updated_at")
+    private OffsetDateTime updatedAt;
 
 }

@@ -26,7 +26,7 @@ public class DatabaseTest extends IntegrationEnvironment{
         Path path = new File(".").toPath().toAbsolutePath()
                 .getParent()
                 .getParent();
-        ResourceAccessor accessor = new DirectoryResourceAccessor(path);
+        ResourceAccessor accessor    = new DirectoryResourceAccessor(path);
         Liquibase liquibase = new liquibase.Liquibase("migrations/master.xml", accessor, IntegrationEnvironment.getDatabase());
         liquibase.update(new Contexts(), new LabelExpression());
     }

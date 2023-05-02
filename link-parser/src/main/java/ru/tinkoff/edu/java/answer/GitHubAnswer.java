@@ -2,11 +2,19 @@ package ru.tinkoff.edu.java.answer;
 
 public final class GitHubAnswer extends ParserAnswer {
 
-    private String user;
-    private String repository;
+    private final String user;
+    private final String repository;
+
+    public String getUser() {
+        return user;
+    }
+
+    public String getRepository() {
+        return repository;
+    }
 
     public GitHubAnswer(String user, String repository) {
-        super();
+        super("GitHubAnswer");
         this.user = user;
         this.repository = repository;
 

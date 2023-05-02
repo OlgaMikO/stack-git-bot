@@ -1,4 +1,4 @@
-package ru.tinkoff.edu.java.scrapper.dto;
+package ru.tinkoff.edu.java.scrapper.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
@@ -18,10 +18,14 @@ public class StackOverflowResponse {
     private OffsetDateTime creation;
 
     @NotNull
-    @JsonProperty(value = "score")
-    private Long votes;
-
-    @NotNull
     @JsonProperty(value = "question_id")
     private Long id;
+
+    @NotNull
+    @JsonProperty(value = "comment_count")
+    private Integer commentCount;
+
+    @NotNull
+    @JsonProperty(value = "answer_count")
+    private Integer answerCount;
 }
