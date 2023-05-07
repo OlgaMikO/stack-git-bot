@@ -8,7 +8,6 @@ import ru.tinkoff.edu.java.bot.command.Command;
 import ru.tinkoff.edu.java.bot.command.HelpCommand;
 import ru.tinkoff.edu.java.bot.command.UnknownCommand;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -21,7 +20,7 @@ public class MessageProcessor implements UserMessageProcessor {
     private HashMap<String, Command> commandsMap;
 
     @Autowired(required = false)
-    public MessageProcessor(List<Command> commands){
+    public MessageProcessor(List<Command> commands) {
         this.commands = commands;
     }
 

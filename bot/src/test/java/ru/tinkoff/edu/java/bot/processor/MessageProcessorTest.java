@@ -11,7 +11,6 @@ import ru.tinkoff.edu.java.bot.BotApplication;
 import ru.tinkoff.edu.java.bot.command.Command;
 import ru.tinkoff.edu.java.bot.command.ListCommand;
 import ru.tinkoff.edu.java.bot.command.UnknownCommand;
-import ru.tinkoff.edu.java.bot.configuration.CommandConfig;
 
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
