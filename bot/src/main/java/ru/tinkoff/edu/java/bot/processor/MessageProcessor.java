@@ -15,10 +15,15 @@ import java.util.List;
 @Component
 public class MessageProcessor implements UserMessageProcessor {
 
-    @Autowired(required = false)
-    private List<Command> commands = new ArrayList<>();
+
+    private final List<Command> commands;
 
     private HashMap<String, Command> commandsMap;
+
+    @Autowired(required = false)
+    public MessageProcessor(List<Command> commands){
+        this.commands = commands;
+    }
 
     @Override
     public List<? extends Command> commands() {
