@@ -24,9 +24,7 @@ public abstract class IntegrationEnvironment {
     private static final String DB_PASSWORD = "qwerty";
 
     static final PostgreSQLContainer<?> POSTGRES_SQL_CONTAINER;
-
     private static final Connection connection;
-
     private static final Database database;
 
 
@@ -45,17 +43,17 @@ public abstract class IntegrationEnvironment {
             return driverManagerDataSource;
         }
 
-        @Bean
-        public PlatformTransactionManager transactionManager() {
-            JdbcTransactionManager transactionManager = new JdbcTransactionManager();
-            transactionManager.setDataSource(dataSource());
-            return transactionManager;
-        }
+//        @Bean
+//        public PlatformTransactionManager transactionManager() {
+//            JdbcTransactionManager transactionManager = new JdbcTransactionManager();
+//            transactionManager.setDataSource(transactionManager.getDataSource());
+//            return transactionManager;
+//        }
 
-        @Bean
-        public JdbcTemplate jdbcTemplate() {
-            return new JdbcTemplate(dataSource());
-        }
+//        @Bean
+//        public JdbcTemplate jdbcTemplate() {
+//            return new JdbcTemplate(dataSource());
+//        }
     }
 
     static {

@@ -1,6 +1,7 @@
 package ru.tinkoff.edu.java.scrapper.domain.jdbc;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -37,8 +38,9 @@ public class LinkDaoImpl extends LinkDao {
                         .prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
                 ps.setString(1, link.getUrl().toString());
                 ps.setLong(2, link.getChat());
-                ps.setTimestamp(3, Timestamp.valueOf(link.getLastUpdate().atZoneSameInstant(ZoneOffset.UTC).toLocalDateTime()));
-                ps.setTimestamp(4, Timestamp.valueOf(link.getLastActivity().atZoneSameInstant(ZoneOffset.UTC).toLocalDateTime()));
+                ps.setTimestamp(3, Timestamp.valueOf(link.getLastUpdate().toLocalDateTime()));
+                System.out.println(Timestamp.valueOf(link.getLastUpdate().toLocalDateTime()));
+                ps.setTimestamp(4, Timestamp.valueOf(link.getLastActivity().toLocalDateTime()));
                 return ps;
             }, keyHolder);
         } catch (DuplicateKeyException e) {

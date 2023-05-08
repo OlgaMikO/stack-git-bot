@@ -26,6 +26,7 @@
         <testcontainers.version>1.18.0</testcontainers.version>
         <surefire-plugin.version>3.0.0</surefire-plugin.version>
         <failsafe-plugin.version>3.0.0</failsafe-plugin.version>
+        <liquibase-core.version>4.20.0</liquibase-core.version>
     </properties>
 
     <dependencyManagement>
@@ -58,6 +59,12 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>${maven-compiler-plugin.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>
             <version>${jetbrains-annotations.version}</version>
@@ -81,7 +88,7 @@
         <dependency>
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-core</artifactId>
-            <version>4.20.0</version>
+            <version>${liquibase-core.version}</version>
         </dependency>
     </dependencies>
 

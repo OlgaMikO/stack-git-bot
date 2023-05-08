@@ -1,5 +1,7 @@
 package ru.tinkoff.edu.java.scrapper.service.database.jdbc;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 import ru.tinkoff.edu.java.scrapper.domain.jdbc.ChatDaoImpl;
 import ru.tinkoff.edu.java.scrapper.domain.jdbc.LinkDaoImpl;
 import ru.tinkoff.edu.java.scrapper.dto.entity.Link;
@@ -10,16 +12,13 @@ import java.net.URI;
 import java.util.Collection;
 import java.util.List;
 
+@Service
+@RequiredArgsConstructor
 public class JdbcLinkService implements LinkService {
 
     private final ChatDaoImpl chatDao;
 
     private final LinkDaoImpl linkDao;
-
-    public JdbcLinkService(ChatDaoImpl chatDao, LinkDaoImpl linkDao) {
-        this.chatDao = chatDao;
-        this.linkDao = linkDao;
-    }
 
     @Override
     public Link add(long tgChatId, URI url) {

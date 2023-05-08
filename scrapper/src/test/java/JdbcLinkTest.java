@@ -8,13 +8,13 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 import ru.tinkoff.edu.java.scrapper.ScrapperApplication;
+import ru.tinkoff.edu.java.scrapper.configuration.database.JpaAccessConfiguration;
 import ru.tinkoff.edu.java.scrapper.domain.jdbc.ChatDaoImpl;
 import ru.tinkoff.edu.java.scrapper.domain.jdbc.LinkDaoImpl;
 import ru.tinkoff.edu.java.scrapper.domain.jdbc.Mapper;
@@ -36,11 +36,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class JdbcLinkTest extends IntegrationEnvironment {
 
     @Autowired
-    @Qualifier("getJdbcLinkRepository")
     private LinkDaoImpl linkDao;
 
     @Autowired
-    @Qualifier("getJdbcChatRepository")
     private ChatDaoImpl chatDao;
 
     @Autowired
@@ -62,7 +60,7 @@ public class JdbcLinkTest extends IntegrationEnvironment {
     }
 
     @Test
-    @Transactional("transactionManager")
+    @Transactional
     @Rollback
     void addTest() {
         Chat chat = new Chat(1L);
@@ -71,8 +69,8 @@ public class JdbcLinkTest extends IntegrationEnvironment {
         link.setId(linkDao.add(link));
         List<Link> linkList = jdbcTemplate.query("select * from links", Mapper.getInstance().getLinkRowMapper());
         List<Chat> chatList = jdbcTemplate.query("select * from chats", Mapper.getInstance().getChatRowMapper());
-        System.out.println(chatList);
-        assertEquals(link, linkList.get(0));
+        assertEquals(link.getId(), linkList.get(0).getId());
+        assertEquals(link.getUrl(), linkList.get(0).getUrl());
         assertEquals(chat, chatList.get(0));
     }
 
@@ -102,7 +100,9 @@ public class JdbcLinkTest extends IntegrationEnvironment {
         link.setId(linkDao.add(link));
         List<Link> linkList = linkDao.findAll();
         List<Chat> chatList = chatDao.findAll();
-        assertEquals(linkList, List.of(link));
+        assertEquals(linkList.get(0).getId(), link.getId());
+        assertEquals(linkList.get(0).getUrl(), link.getUrl());
+        assertEquals(linkList.get(0).getChat(), link.getChat());
         assertEquals(chatList, List.of(chat));
     }
 

@@ -36,8 +36,8 @@ public class Mapper {
             link.setId(resultSet.getLong("Id"));
             link.setUrl(URI.create(resultSet.getString("URL")));
             link.setChat(resultSet.getLong("Chat"));
-            link.setLastActivity(OffsetDateTime.of(resultSet.getTimestamp("Last_activity").toLocalDateTime(), ZoneOffset.UTC));
-            link.setLastUpdate(OffsetDateTime.of(resultSet.getTimestamp("Last_update").toLocalDateTime(), ZoneOffset.UTC));
+            link.setLastActivity(resultSet.getTimestamp("Last_activity").toLocalDateTime().atOffset(ZoneOffset.of("+03:00")));
+            link.setLastUpdate(resultSet.getTimestamp("Last_update").toLocalDateTime().atOffset(ZoneOffset.of("+03:00")));
             return link;
         };
     }

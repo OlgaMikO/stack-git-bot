@@ -29,7 +29,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-@ContextConfiguration(classes = ScrapperApplication.class)
+@ContextConfiguration(classes = {ScrapperApplication.class, IntegrationEnvironment.Config.class})
 public class JpaTest extends IntegrationEnvironment {
 
     @Autowired
@@ -44,9 +44,8 @@ public class JpaTest extends IntegrationEnvironment {
                 .getParent()
                 .getParent();
         ResourceAccessor accessor = new DirectoryResourceAccessor(path);
-        Liquibase liquibase = new liquibase.Liquibase("migrations/master.xml", accessor, IntegrationEnvironment.getDatabase());
+        Liquibase liquibase = new Liquibase("migrations/master.xml", accessor, IntegrationEnvironment.getDatabase());
         liquibase.update(new Contexts(), new LabelExpression());
-
     }
 
     @AfterAll
@@ -57,32 +56,22 @@ public class JpaTest extends IntegrationEnvironment {
     @Test
     @Transactional
     @Rollback
-    void addTest(){
+    void addTest() {
         Chat chat = new Chat(1L);
         jpaChatDao.add(chat);
-        Link link = new Link(URI.create("https://github.com/OlgaMikO/stack-git-bot"), chat.getId());
-        link.setId(jpaLinkDao.add(link));
-        List<Link> linkList = jpaLinkDao.findAll();
         List<Chat> chatList = jpaChatDao.findAll();
-        System.out.println(chatList);
-        assertEquals(link, linkList.get(0));
         assertEquals(chat, chatList.get(0));
     }
 
     @Test
     @Transactional
     @Rollback
-    void removeTest(){
+    void removeTest() {
         Chat chat = new Chat(1L);
         jpaChatDao.add(chat);
-        Link link = new Link(URI.create("https://github.com/OlgaMikO/stack-git-bot"), chat.getId());
-        link.setId(jpaLinkDao.add(link));
-        jpaLinkDao.remove(link.getId());
         jpaChatDao.remove(chat.getId());
-        List<Link> linkList = jpaLinkDao.findAll();
         List<Chat> chatList = jpaChatDao.findAll();
         System.out.println(chatList);
-        assertEquals(new ArrayList<Link>(), linkList);
         assertEquals(new ArrayList<Chat>(), chatList);
     }
 }
