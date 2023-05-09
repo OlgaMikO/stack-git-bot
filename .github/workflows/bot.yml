@@ -3,9 +3,17 @@ on:
   push:
     paths:
       - 'bot/**'
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: bot
+
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 19
@@ -16,4 +24,15 @@ jobs:
           cache: 'maven'
       - name: Build with Maven
         run: mvn package -pl bot -am
-      - run: docker build -f bot.Dockerfile -t bot .
+
+      - run: docker build -f bot.Dockerfile -t ${{ env.REGISTRY}}/$${{ github.actor }}/${{ env.IMAGE_NAME }}:latest .
+
+      - name: Log in to the Container registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push Docker image
+        uses: docker push ${{ env.REGISTRY}}/$${{ github.actor }}/${{ env.IMAGE_NAME }}:latest
