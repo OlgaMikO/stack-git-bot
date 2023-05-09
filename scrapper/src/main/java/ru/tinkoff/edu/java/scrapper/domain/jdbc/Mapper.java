@@ -5,7 +5,6 @@ import ru.tinkoff.edu.java.scrapper.dto.entity.Chat;
 import ru.tinkoff.edu.java.scrapper.dto.entity.Link;
 
 import java.net.URI;
-import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 
 
@@ -13,10 +12,11 @@ public class Mapper {
 
     private static Mapper instance;
 
-    private Mapper(){}
+    private Mapper() {
+    }
 
-    public static Mapper getInstance(){
-        if(instance == null){
+    public static Mapper getInstance() {
+        if (instance == null) {
             instance = new Mapper();
         }
         return instance;

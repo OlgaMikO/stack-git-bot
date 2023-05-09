@@ -1,31 +1,20 @@
-import liquibase.Contexts;
-import liquibase.LabelExpression;
-import liquibase.Liquibase;
-import liquibase.exception.LiquibaseException;
-import liquibase.resource.DirectoryResourceAccessor;
-import liquibase.resource.ResourceAccessor;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.transaction.annotation.Transactional;
 import ru.tinkoff.edu.java.scrapper.ScrapperApplication;
-import ru.tinkoff.edu.java.scrapper.configuration.database.JpaAccessConfiguration;
-import ru.tinkoff.edu.java.scrapper.domain.jdbc.ChatDaoImpl;
-import ru.tinkoff.edu.java.scrapper.domain.jdbc.LinkDaoImpl;
+import ru.tinkoff.edu.java.scrapper.domain.ChatDao;
+import ru.tinkoff.edu.java.scrapper.domain.LinkDao;
 import ru.tinkoff.edu.java.scrapper.domain.jdbc.Mapper;
 import ru.tinkoff.edu.java.scrapper.dto.entity.Chat;
 import ru.tinkoff.edu.java.scrapper.dto.entity.Link;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.net.URI;
-import java.nio.file.Path;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,30 +22,21 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 @ContextConfiguration(classes = {ScrapperApplication.class, IntegrationEnvironment.Config.class})
-public class JdbcLinkTest extends IntegrationEnvironment {
+public class JdbcLinkTest extends DatabaseTest {
 
     @Autowired
-    private LinkDaoImpl linkDao;
+    private LinkDao linkDao;
 
     @Autowired
-    private ChatDaoImpl chatDao;
+    private ChatDao chatDao;
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    @BeforeAll
-    public static void setup() throws LiquibaseException, FileNotFoundException {
-        Path path = new File(".").toPath().toAbsolutePath()
-                .getParent()
-                .getParent();
-        ResourceAccessor accessor = new DirectoryResourceAccessor(path);
-        Liquibase liquibase = new Liquibase("migrations/master.xml", accessor, IntegrationEnvironment.getDatabase());
-        liquibase.update(new Contexts(), new LabelExpression());
-    }
+    @DynamicPropertySource
+    static void jdbcProperties(DynamicPropertyRegistry registry) {
 
-    @AfterAll
-    public static void done() throws SQLException {
-        IntegrationEnvironment.getConnection().close();
+        registry.add("scrapper.app.databaseAccessType", () -> "jdbc");
     }
 
     @Test

@@ -1,7 +1,8 @@
 package ru.tinkoff.edu.java.scrapper.service.database.jpa;
 
-import ru.tinkoff.edu.java.scrapper.domain.jpa.JpaChatDao;
-import ru.tinkoff.edu.java.scrapper.domain.jpa.JpaLinkDao;
+import lombok.RequiredArgsConstructor;
+import ru.tinkoff.edu.java.scrapper.domain.ChatDao;
+import ru.tinkoff.edu.java.scrapper.domain.LinkDao;
 import ru.tinkoff.edu.java.scrapper.dto.entity.Link;
 import ru.tinkoff.edu.java.scrapper.exception.NotFoundScrapperException;
 import ru.tinkoff.edu.java.scrapper.service.database.LinkService;
@@ -10,15 +11,12 @@ import java.net.URI;
 import java.util.Collection;
 import java.util.List;
 
+@RequiredArgsConstructor
 public class JpaLinkService implements LinkService {
-    private final JpaChatDao chatDao;
 
-    private final JpaLinkDao linkDao;
+    private final ChatDao chatDao;
 
-    public JpaLinkService(JpaChatDao chatDao, JpaLinkDao linkDao) {
-        this.chatDao = chatDao;
-        this.linkDao = linkDao;
-    }
+    private final LinkDao linkDao;
 
     @Override
     public Link add(long tgChatId, URI url) {
@@ -28,7 +26,7 @@ public class JpaLinkService implements LinkService {
         } else {
             link.setId(linkDao.add(link));
         }
-        if(link.getId() == null){
+        if (link.getId() == null) {
             return null;
         }
         return link;
@@ -41,10 +39,9 @@ public class JpaLinkService implements LinkService {
             throw new NotFoundScrapperException("Пользователь не найден");
         } else {
             Long id = linkDao.findByUrlAndChatId(url, tgChatId).getId();
-            if(id == null){
+            if (id == null) {
                 throw new NotFoundScrapperException("Ссылка не найдена");
-            }
-            else {
+            } else {
                 link.setId(id);
                 linkDao.remove(id);
             }

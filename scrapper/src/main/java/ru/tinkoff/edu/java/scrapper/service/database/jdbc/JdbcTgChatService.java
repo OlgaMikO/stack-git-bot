@@ -2,17 +2,15 @@ package ru.tinkoff.edu.java.scrapper.service.database.jdbc;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DuplicateKeyException;
-import org.springframework.stereotype.Service;
-import ru.tinkoff.edu.java.scrapper.domain.jdbc.ChatDaoImpl;
+import ru.tinkoff.edu.java.scrapper.domain.ChatDao;
 import ru.tinkoff.edu.java.scrapper.dto.entity.Chat;
 import ru.tinkoff.edu.java.scrapper.exception.NotFoundScrapperException;
 import ru.tinkoff.edu.java.scrapper.service.database.TgChatService;
 
-@Service
 @RequiredArgsConstructor
 public class JdbcTgChatService implements TgChatService {
 
-    private final ChatDaoImpl chatDao;
+    private final ChatDao chatDao;
 
     @Override
     public void register(long tgChatId) {

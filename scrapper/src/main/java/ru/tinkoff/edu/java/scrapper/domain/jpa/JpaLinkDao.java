@@ -2,9 +2,6 @@ package ru.tinkoff.edu.java.scrapper.domain.jpa;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.stereotype.Component;
 import ru.tinkoff.edu.java.scrapper.domain.LinkDao;
 import ru.tinkoff.edu.java.scrapper.dto.entity.Link;
 import ru.tinkoff.edu.java.scrapper.dto.entity.jpa.JpaChat;
@@ -16,7 +13,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-@Component
 @RequiredArgsConstructor
 public class JpaLinkDao extends LinkDao {
 

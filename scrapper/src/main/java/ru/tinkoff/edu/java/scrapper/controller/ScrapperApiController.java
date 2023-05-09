@@ -1,6 +1,6 @@
 package ru.tinkoff.edu.java.scrapper.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,25 +9,20 @@ import ru.tinkoff.edu.java.scrapper.dto.request.AddLinkRequest;
 import ru.tinkoff.edu.java.scrapper.dto.request.RemoveLinkRequest;
 import ru.tinkoff.edu.java.scrapper.dto.response.LinkResponse;
 import ru.tinkoff.edu.java.scrapper.dto.response.ListLinksResponse;
-import ru.tinkoff.edu.java.scrapper.service.database.jdbc.JdbcLinkService;
-import ru.tinkoff.edu.java.scrapper.service.database.jdbc.JdbcTgChatService;
+import ru.tinkoff.edu.java.scrapper.service.database.LinkService;
+import ru.tinkoff.edu.java.scrapper.service.database.TgChatService;
 
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 @RestController
+@RequiredArgsConstructor
 public class ScrapperApiController {
 
-    private final JdbcLinkService linkService;
+    private final LinkService linkService;
 
-    private final JdbcTgChatService tgChatService;
-
-    @Autowired
-    public ScrapperApiController(JdbcLinkService linkService, JdbcTgChatService tgChatService){
-        this.linkService = linkService;
-        this.tgChatService = tgChatService;
-    }
+    private final TgChatService tgChatService;
 
     @PostMapping("/tg-chat/{id}")
     public ResponseEntity<?> registerChat(@PathVariable("id") Long id) {

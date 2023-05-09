@@ -1,12 +1,10 @@
 package ru.tinkoff.edu.java.scrapper.domain.jdbc;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
-import org.springframework.stereotype.Repository;
 import ru.tinkoff.edu.java.scrapper.domain.LinkDao;
 import ru.tinkoff.edu.java.scrapper.dto.entity.Link;
 
@@ -19,7 +17,6 @@ import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Objects;
 
-@Repository
 @RequiredArgsConstructor
 public class LinkDaoImpl extends LinkDao {
 

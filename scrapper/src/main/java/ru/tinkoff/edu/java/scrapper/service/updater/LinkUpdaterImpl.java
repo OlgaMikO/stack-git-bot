@@ -1,7 +1,6 @@
 package ru.tinkoff.edu.java.scrapper.service.updater;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import ru.tinkoff.edu.java.AllLinkParser;
 import ru.tinkoff.edu.java.answer.GitHubAnswer;
@@ -34,7 +33,7 @@ public class LinkUpdaterImpl implements LinkUpdater {
     private final IBotClient botClient;
 
     @Autowired
-    public LinkUpdaterImpl(@Qualifier("linkDaoImpl") LinkDao linkDao,
+    public LinkUpdaterImpl(LinkDao linkDao,
                            GitHubClient gitHubClient,
                            StackOverflowClient stackOverflowClient,
                            IBotClient botClient) {
@@ -56,7 +55,7 @@ public class LinkUpdaterImpl implements LinkUpdater {
                 case "StackOverflowAnswer" -> change = stackOverflowUpdate(link, answer);
                 case "GitHubAnswer" -> change = gitHubUpdate(link, answer);
             }
-            if(change != null){
+            if (change != null) {
                 resultChanges.append(change).append("\n");
                 botClient.linkUpdate(new LinkUpdateRequest(link, change));
             }
@@ -75,18 +74,18 @@ public class LinkUpdaterImpl implements LinkUpdater {
         return stringBuilder.toString();
     }
 
-    private String answerUpdater(Link link, StackOverflowResponse response){
-        if(!Objects.equals(response.getAnswerCount(), link.getAnswerCount())){
-            if(link.getAnswerCount() != null){
+    private String answerUpdater(Link link, StackOverflowResponse response) {
+        if (!Objects.equals(response.getAnswerCount(), link.getAnswerCount())) {
+            if (link.getAnswerCount() != null) {
                 return "Появился новый ответ";
             }
         }
         return "";
     }
 
-    private String commentUpdater(Link link, StackOverflowResponse response){
-        if(!Objects.equals(response.getCommentCount(), link.getCommentCount())){
-            if(link.getCommentCount() != null){
+    private String commentUpdater(Link link, StackOverflowResponse response) {
+        if (!Objects.equals(response.getCommentCount(), link.getCommentCount())) {
+            if (link.getCommentCount() != null) {
                 return "Появился новый комментарий";
             }
         }

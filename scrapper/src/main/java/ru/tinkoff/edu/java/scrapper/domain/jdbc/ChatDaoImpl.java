@@ -2,13 +2,11 @@ package ru.tinkoff.edu.java.scrapper.domain.jdbc;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Repository;
 import ru.tinkoff.edu.java.scrapper.domain.ChatDao;
 import ru.tinkoff.edu.java.scrapper.dto.entity.Chat;
 
 import java.util.List;
 
-@Repository
 @RequiredArgsConstructor
 public class ChatDaoImpl extends ChatDao {
 
