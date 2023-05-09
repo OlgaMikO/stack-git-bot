@@ -19,7 +19,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class RabbitMQConfiguration {
 
-    private final RabbitMQProperties rabbitMQProperties;
+    private final ApplicationConfig rabbitMQProperties;
 
     @Bean
     public CachingConnectionFactory connectionFactory() {

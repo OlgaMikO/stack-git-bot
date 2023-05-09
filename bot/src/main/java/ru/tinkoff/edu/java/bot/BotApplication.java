@@ -6,11 +6,10 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import ru.tinkoff.edu.java.bot.configuration.ApplicationConfig;
 import ru.tinkoff.edu.java.bot.configuration.BotConfiguration;
 import ru.tinkoff.edu.java.bot.configuration.ClientConfiguration;
-import ru.tinkoff.edu.java.bot.configuration.RabbitMQProperties;
 import ru.tinkoff.edu.java.bot.processor.MessageProcessor;
 
 @SpringBootApplication
-@EnableConfigurationProperties({ApplicationConfig.class, ClientConfiguration.class, RabbitMQProperties.class})
+@EnableConfigurationProperties({ApplicationConfig.class, ClientConfiguration.class})
 public class BotApplication {
     public static void main(String[] args) {
         var ctx = SpringApplication.run(BotApplication.class, args);

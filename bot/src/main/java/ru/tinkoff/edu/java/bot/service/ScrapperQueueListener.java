@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import ru.tinkoff.edu.java.bot.dto.LinkUpdateRequest;
 
 @Service
-@RabbitListener(queues = "${bot.rabbitmq.queue-name}")
+@RabbitListener(queues = "${app.queue-name}")
 @RequiredArgsConstructor
 public class ScrapperQueueListener {
 
