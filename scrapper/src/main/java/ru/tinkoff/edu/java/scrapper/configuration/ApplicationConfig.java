@@ -12,7 +12,10 @@ public record ApplicationConfig(@NotNull String test,
                                 @NotNull String scheduler,
                                 @NotNull AccessType databaseAccessType,
                                 @NotNull Integer countOldLinks,
-                                @NotNull Boolean useQueue) {
+                                @NotNull Boolean useQueue,
+                                @NotNull String exchangeName,
+                                @NotNull String queueName,
+                                @NotNull String routingKey) {
     @Bean
     public String getInterval(){
         return String.valueOf(scheduler);

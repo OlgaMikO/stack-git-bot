@@ -25,8 +25,6 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class RabbitMQConfiguration {
 
-    private final RabbitMQProperties rabbitMQProperties;
-
     private final ClientConfigProperties clientProperties;
 
     private final ApplicationConfig config;
@@ -46,29 +44,29 @@ public class RabbitMQConfiguration {
 
     @Bean
     public DirectExchange directExchange() {
-        return new DirectExchange(rabbitMQProperties.exchangeName(), true, false);
+        return new DirectExchange(config.exchangeName(), true, false);
     }
 
     @Bean
     public Queue queue() {
-        return QueueBuilder.durable(rabbitMQProperties.queueName()).
-                withArgument("x-dead-letter-exchange", rabbitMQProperties.exchangeName() + ".dlx")
+        return QueueBuilder.durable(config.queueName()).
+                withArgument("x-dead-letter-exchange", config.exchangeName() + ".dlx")
                 .build();
     }
 
     @Bean
     public Binding binding() {
-        return BindingBuilder.bind(queue()).to(directExchange()).with(rabbitMQProperties.routingKey());
+        return BindingBuilder.bind(queue()).to(directExchange()).with(config.routingKey());
     }
 
     @Bean
     public String exchangeName() {
-        return rabbitMQProperties.exchangeName();
+        return config.exchangeName();
     }
 
     @Bean
     public String routingKey() {
-        return rabbitMQProperties.routingKey();
+        return config.routingKey();
     }
 
     @Bean
