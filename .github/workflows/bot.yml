@@ -3,6 +3,7 @@ on:
   push:
     paths:
       - 'bot/**'
+      - '.github/workflows/**'
 
 env:
   REGISTRY: ghcr.io
@@ -37,4 +38,4 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Push Docker image
-        uses: docker push ${{ env.REGISTRY}}/$${{ github.actor }}/${{ env.IMAGE_NAME }}:latest
+        run: docker push ${{ env.REGISTRY}}/$${{ github.actor }}/${{ env.IMAGE_NAME }}:latest
