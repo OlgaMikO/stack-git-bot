@@ -2,9 +2,8 @@ package ru.tinkoff.edu.java.scrapper.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
-
 import java.time.OffsetDateTime;
+import lombok.Data;
 
 @Data
 public class StackOverflowResponse {

@@ -1,8 +1,8 @@
 package ru.tinkoff.edu.java.bot.dto;
 
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
 import java.util.ArrayList;
+import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public class ApiErrorResponse {

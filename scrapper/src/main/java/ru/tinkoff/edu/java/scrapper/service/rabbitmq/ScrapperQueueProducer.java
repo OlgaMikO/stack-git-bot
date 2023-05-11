@@ -7,7 +7,7 @@ import ru.tinkoff.edu.java.scrapper.dto.request.LinkUpdateRequest;
 
 @Service
 @RequiredArgsConstructor
-public class ScrapperQueueProducer{
+public class ScrapperQueueProducer {
 
     private final RabbitTemplate rabbitTemplate;
 

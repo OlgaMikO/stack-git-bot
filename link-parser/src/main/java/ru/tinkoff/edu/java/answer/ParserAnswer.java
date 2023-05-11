@@ -4,13 +4,13 @@ public sealed abstract class ParserAnswer permits GitHubAnswer, StackOverflowAns
 
     private final String className;
 
-    public ParserAnswer(String className){
+    public ParserAnswer(String className) {
         this.className = className;
     }
 
     public abstract String toString();
 
-    public String getClassName(){
+    public String getClassName() {
         return className;
     }
 }

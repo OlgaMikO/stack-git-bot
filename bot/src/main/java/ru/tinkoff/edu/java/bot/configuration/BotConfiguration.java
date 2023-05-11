@@ -11,7 +11,7 @@ public class BotConfiguration {
     private final ApplicationConfig config;
 
     @Bean
-    public String getToken(){
+    public String getToken() {
         return config.token();
     }
 

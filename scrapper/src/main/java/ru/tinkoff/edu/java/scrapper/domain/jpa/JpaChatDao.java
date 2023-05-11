@@ -1,14 +1,13 @@
 package ru.tinkoff.edu.java.scrapper.domain.jpa;
 
 import jakarta.transaction.Transactional;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import ru.tinkoff.edu.java.scrapper.domain.ChatDao;
 import ru.tinkoff.edu.java.scrapper.dto.entity.Chat;
 import ru.tinkoff.edu.java.scrapper.dto.entity.jpa.JpaChat;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 public class JpaChatDao extends ChatDao {

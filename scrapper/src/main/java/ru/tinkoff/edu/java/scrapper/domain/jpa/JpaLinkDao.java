@@ -1,17 +1,16 @@
 package ru.tinkoff.edu.java.scrapper.domain.jpa;
 
 import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
-import ru.tinkoff.edu.java.scrapper.domain.LinkDao;
-import ru.tinkoff.edu.java.scrapper.dto.entity.Link;
-import ru.tinkoff.edu.java.scrapper.dto.entity.jpa.JpaChat;
-import ru.tinkoff.edu.java.scrapper.dto.entity.jpa.JpaLink;
-
 import java.net.URI;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
+import ru.tinkoff.edu.java.scrapper.domain.LinkDao;
+import ru.tinkoff.edu.java.scrapper.dto.entity.Link;
+import ru.tinkoff.edu.java.scrapper.dto.entity.jpa.JpaChat;
+import ru.tinkoff.edu.java.scrapper.dto.entity.jpa.JpaLink;
 
 @RequiredArgsConstructor
 public class JpaLinkDao extends LinkDao {
@@ -35,8 +34,9 @@ public class JpaLinkDao extends LinkDao {
     }
 
     private Link toLink(JpaLink jpaLink) {
-        if (jpaLink == null)
+        if (jpaLink == null) {
             return null;
+        }
         Link link = new Link();
         link.setId(jpaLink.getId());
         link.setUrl(jpaLink.getUrl());

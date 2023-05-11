@@ -1,10 +1,9 @@
 package ru.tinkoff.edu.java.scrapper.dto.entity;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.net.URI;
 import java.time.OffsetDateTime;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor

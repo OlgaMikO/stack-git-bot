@@ -17,7 +17,7 @@ public record ApplicationConfig(@NotNull String test,
                                 @NotNull String queueName,
                                 @NotNull String routingKey) {
     @Bean
-    public String getInterval(){
+    public String getInterval() {
         return String.valueOf(scheduler);
     }
 

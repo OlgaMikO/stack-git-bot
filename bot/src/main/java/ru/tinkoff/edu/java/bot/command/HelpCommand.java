@@ -3,16 +3,18 @@ package ru.tinkoff.edu.java.bot.command;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 
-public class HelpCommand implements Command{
+public class HelpCommand implements Command {
 
-    private String responseMessage;
+    private final String responseMessage;
 
-    public HelpCommand(){
+    public HelpCommand() {
         responseMessage = command() + " - " + description();
     }
-    public HelpCommand(String message){
+
+    public HelpCommand(String message) {
         responseMessage = message;
     }
+
     @Override
     public String command() {
         return "/help";

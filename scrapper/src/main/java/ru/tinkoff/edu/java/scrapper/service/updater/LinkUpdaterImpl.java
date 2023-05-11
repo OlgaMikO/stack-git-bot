@@ -1,5 +1,8 @@
 package ru.tinkoff.edu.java.scrapper.service.updater;
 
+import java.time.OffsetDateTime;
+import java.util.List;
+import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.tinkoff.edu.java.AllLinkParser;
@@ -15,10 +18,6 @@ import ru.tinkoff.edu.java.scrapper.dto.request.LinkUpdateRequest;
 import ru.tinkoff.edu.java.scrapper.dto.response.GitHubResponse;
 import ru.tinkoff.edu.java.scrapper.dto.response.StackOverflowResponse;
 
-import java.time.OffsetDateTime;
-import java.util.List;
-import java.util.Objects;
-
 @Service
 public class LinkUpdaterImpl implements LinkUpdater {
 
@@ -33,10 +32,12 @@ public class LinkUpdaterImpl implements LinkUpdater {
     private final IBotClient botClient;
 
     @Autowired
-    public LinkUpdaterImpl(LinkDao linkDao,
-                           GitHubClient gitHubClient,
-                           StackOverflowClient stackOverflowClient,
-                           IBotClient botClient) {
+    public LinkUpdaterImpl(
+        LinkDao linkDao,
+        GitHubClient gitHubClient,
+        StackOverflowClient stackOverflowClient,
+        IBotClient botClient
+    ) {
         this.linkDao = linkDao;
         this.gitHubClient = gitHubClient;
         this.stackOverflowClient = stackOverflowClient;
@@ -48,12 +49,14 @@ public class LinkUpdaterImpl implements LinkUpdater {
         List<Link> oldLinks = linkDao.findOldLinks(0L);
         ParserAnswer answer;
         StringBuilder resultChanges = new StringBuilder();
-        String change = "";
+        String change;
         for (Link link : oldLinks) {
             answer = parser.getLinkParser().parseLink(link.getUrl());
-            switch (answer.getClassName()) {
+            var a = answer.getClassName();
+            switch (a) {
                 case "StackOverflowAnswer" -> change = stackOverflowUpdate(link, answer);
                 case "GitHubAnswer" -> change = gitHubUpdate(link, answer);
+                default -> change = "";
             }
             if (change != null) {
                 resultChanges.append(change).append("\n");
@@ -65,7 +68,8 @@ public class LinkUpdaterImpl implements LinkUpdater {
 
     public String stackOverflowUpdate(Link link, ParserAnswer answer) {
         StringBuilder stringBuilder = new StringBuilder();
-        StackOverflowResponse response = stackOverflowClient.fetchQuestion(((StackOverflowAnswer) answer).getQuestionID());
+        StackOverflowResponse response =
+            stackOverflowClient.fetchQuestion(((StackOverflowAnswer) answer).getQuestionID());
         if (response.getActivity().isAfter(link.getLastActivity())) {
             stringBuilder.append(answerUpdater(link, response));
             stringBuilder.append(commentUpdater(link, response));
@@ -93,8 +97,10 @@ public class LinkUpdaterImpl implements LinkUpdater {
     }
 
     public String gitHubUpdate(Link link, ParserAnswer answer) {
-        GitHubResponse response = gitHubClient.fetchRepository(((GitHubAnswer) answer).getUser(),
-                ((GitHubAnswer) answer).getRepository());
+        GitHubResponse response = gitHubClient.fetchRepository(
+            ((GitHubAnswer) answer).getUser(),
+            ((GitHubAnswer) answer).getRepository()
+        );
         if (response.getUpdatedAt().isAfter(link.getLastActivity())) {
             linkDao.update(link.getId(), OffsetDateTime.now(), 0, 0);
             return "Данные изменились";

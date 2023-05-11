@@ -2,9 +2,8 @@ package ru.tinkoff.edu.java.bot.command;
 
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
-import ru.tinkoff.edu.java.bot.IDataBase;
-
 import java.util.ArrayList;
+import ru.tinkoff.edu.java.bot.IDataBase;
 
 public class ListCommand implements Command {
 

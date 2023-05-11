@@ -2,14 +2,13 @@ package ru.tinkoff.edu.java.bot.processor;
 
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
+import java.util.HashMap;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.tinkoff.edu.java.bot.command.Command;
 import ru.tinkoff.edu.java.bot.command.HelpCommand;
 import ru.tinkoff.edu.java.bot.command.UnknownCommand;
-
-import java.util.HashMap;
-import java.util.List;
 
 @Component
 public class MessageProcessor implements UserMessageProcessor {

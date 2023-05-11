@@ -12,7 +12,7 @@ public class LinkUpdater {
 
     private final Bot bot;
 
-    public void sendMessage(LinkUpdateRequest request){
+    public void sendMessage(LinkUpdateRequest request) {
         bot.execute(new SendMessage(request.getId(), String.format("Обновление ссылки: %s", request.getUrl())));
     }
 }

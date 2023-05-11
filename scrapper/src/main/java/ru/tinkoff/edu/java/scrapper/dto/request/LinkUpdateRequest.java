@@ -1,12 +1,11 @@
 package ru.tinkoff.edu.java.scrapper.dto.request;
 
+import java.net.URI;
+import java.util.ArrayList;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NonNull;
 import ru.tinkoff.edu.java.scrapper.dto.entity.Link;
-
-import java.net.URI;
-import java.util.ArrayList;
 
 @Data
 @AllArgsConstructor
@@ -21,7 +20,7 @@ public class LinkUpdateRequest {
     @NonNull
     private ArrayList<Long> tgChatIds;
 
-    public LinkUpdateRequest(Link link, String description){
+    public LinkUpdateRequest(Link link, String description) {
         this.id = link.getId();
         this.url = link.getUrl();
         this.description = description;

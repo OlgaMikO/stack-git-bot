@@ -1,9 +1,17 @@
 package ru.tinkoff.edu.java.scrapper.controller;
 
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RestController;
 import ru.tinkoff.edu.java.scrapper.dto.entity.Link;
 import ru.tinkoff.edu.java.scrapper.dto.request.AddLinkRequest;
 import ru.tinkoff.edu.java.scrapper.dto.request.RemoveLinkRequest;
@@ -11,10 +19,6 @@ import ru.tinkoff.edu.java.scrapper.dto.response.LinkResponse;
 import ru.tinkoff.edu.java.scrapper.dto.response.ListLinksResponse;
 import ru.tinkoff.edu.java.scrapper.service.database.LinkService;
 import ru.tinkoff.edu.java.scrapper.service.database.TgChatService;
-
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -28,8 +32,8 @@ public class ScrapperApiController {
     public ResponseEntity<?> registerChat(@PathVariable("id") Long id) {
         tgChatService.register(id);
         return ResponseEntity
-                .status(HttpStatusCode.valueOf(200))
-                .body("Чат зарегистрирован");
+            .ok()
+            .body("Чат зарегистрирован");
 //        throw new BadRequestException("Некорректные параметры запроса");
     }
 
@@ -37,8 +41,8 @@ public class ScrapperApiController {
     public ResponseEntity<?> deleteChat(@PathVariable("id") Long id) {
         tgChatService.unregister(id);
         return ResponseEntity
-                .status(HttpStatusCode.valueOf(200))
-                .body("Чат успешно удалён");
+            .ok()
+            .body("Чат успешно удалён");
 //        if(exampleID.isEmpty()){
 //            throw new BadRequestException("Некорректные параметры запроса");
 //        }
@@ -56,10 +60,10 @@ public class ScrapperApiController {
     @GetMapping("/links")
     public ResponseEntity<ListLinksResponse> getLinks(@RequestHeader("Tg-Chat-Id") Long id) {
         ArrayList<LinkResponse> links = linkService.listAll(id)
-                .stream()
-                .map(u -> new LinkResponse(u.getId(), u.getUrl().toString()))
-                .collect(Collectors.toCollection(ArrayList::new));
-        return ResponseEntity.status(200).body(new ListLinksResponse(links, (long) links.size()));
+            .stream()
+            .map(u -> new LinkResponse(u.getId(), u.getUrl().toString()))
+            .collect(Collectors.toCollection(ArrayList::new));
+        return ResponseEntity.ok().body(new ListLinksResponse(links, (long) links.size()));
 //        if(!exampleID.isEmpty()){
 //            ArrayList<LinkResponse> links = new ArrayList<>();
 //            for(long ex: exampleID){
@@ -81,7 +85,10 @@ public class ScrapperApiController {
     }
 
     @DeleteMapping("/links")
-    public ResponseEntity<LinkResponse> deleteLinkTracking(@RequestHeader("Tg-Chat-Id") Long id, @RequestBody RemoveLinkRequest link) {
+    public ResponseEntity<LinkResponse> deleteLinkTracking(
+        @RequestHeader("Tg-Chat-Id") Long id,
+        @RequestBody RemoveLinkRequest link
+    ) {
         Link removeLink = linkService.remove(id, URI.create(link.link()));
         return ResponseEntity.ok(new LinkResponse(removeLink.getId(), removeLink.getUrl().toString()));
 //        if (exampleID.isEmpty()) {

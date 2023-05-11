@@ -1,16 +1,16 @@
 package ru.tinkoff.edu.java.scrapper.domain.jdbc;
 
+import java.net.URI;
+import java.time.ZoneOffset;
 import org.springframework.jdbc.core.RowMapper;
 import ru.tinkoff.edu.java.scrapper.dto.entity.Chat;
 import ru.tinkoff.edu.java.scrapper.dto.entity.Link;
 
-import java.net.URI;
-import java.time.ZoneOffset;
-
-
-public class Mapper {
+public final class Mapper {
 
     private static Mapper instance;
+
+    private static final ZoneOffset ZONE_OFFSET = ZoneOffset.of("+3:00");
 
     private Mapper() {
     }
@@ -36,8 +36,10 @@ public class Mapper {
             link.setId(resultSet.getLong("Id"));
             link.setUrl(URI.create(resultSet.getString("URL")));
             link.setChat(resultSet.getLong("Chat"));
-            link.setLastActivity(resultSet.getTimestamp("Last_activity").toLocalDateTime().atOffset(ZoneOffset.of("+03:00")));
-            link.setLastUpdate(resultSet.getTimestamp("Last_update").toLocalDateTime().atOffset(ZoneOffset.of("+03:00")));
+            link.setLastActivity(resultSet.getTimestamp("Last_activity").toLocalDateTime()
+                .atOffset(ZONE_OFFSET));
+            link.setLastUpdate(resultSet.getTimestamp("Last_update").toLocalDateTime()
+                .atOffset(ZONE_OFFSET));
             return link;
         };
     }

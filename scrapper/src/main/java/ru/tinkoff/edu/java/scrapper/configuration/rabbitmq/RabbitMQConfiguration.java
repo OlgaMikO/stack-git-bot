@@ -1,7 +1,13 @@
 package ru.tinkoff.edu.java.scrapper.configuration.rabbitmq;
 
+import java.util.HashMap;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
-import org.springframework.amqp.core.*;
+import org.springframework.amqp.core.Binding;
+import org.springframework.amqp.core.BindingBuilder;
+import org.springframework.amqp.core.DirectExchange;
+import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.QueueBuilder;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.ClassMapper;
@@ -18,9 +24,6 @@ import ru.tinkoff.edu.java.scrapper.dto.request.LinkUpdateRequest;
 import ru.tinkoff.edu.java.scrapper.service.rabbitmq.QueueLinkUpdate;
 import ru.tinkoff.edu.java.scrapper.service.rabbitmq.ScrapperQueueProducer;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @Configuration
 @RequiredArgsConstructor
 public class RabbitMQConfiguration {
@@ -29,11 +32,13 @@ public class RabbitMQConfiguration {
 
     private final ApplicationConfig config;
 
+    private static final String USERNAME = "guest";
+
     @Bean
     public CachingConnectionFactory connectionFactory() {
         CachingConnectionFactory cachingConnectionFactory = new CachingConnectionFactory("localhost");
-        cachingConnectionFactory.setUsername("guest");
-        cachingConnectionFactory.setPassword("guest");
+        cachingConnectionFactory.setUsername(USERNAME);
+        cachingConnectionFactory.setPassword(USERNAME);
         return cachingConnectionFactory;
     }
 
@@ -49,8 +54,8 @@ public class RabbitMQConfiguration {
 
     @Bean
     public Queue queue() {
-        return QueueBuilder.durable(config.queueName()).
-                withArgument("x-dead-letter-exchange", config.exchangeName() + ".dlx")
+        return QueueBuilder.durable(config.queueName())
+                .withArgument("x-dead-letter-exchange", config.exchangeName() + ".dlx")
                 .build();
     }
 

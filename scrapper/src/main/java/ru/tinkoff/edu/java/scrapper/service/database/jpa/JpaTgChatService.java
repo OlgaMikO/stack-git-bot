@@ -24,7 +24,7 @@ public class JpaTgChatService implements TgChatService {
     @Override
     public void unregister(long tgChatId) {
         if (chatDao.findById(tgChatId) == null) {
-            throw new NotFoundScrapperException("Пользователь не найден");
+            throw new NotFoundScrapperException("Пользователь не найден", tgChatId);
         } else {
             chatDao.remove(tgChatId);
         }

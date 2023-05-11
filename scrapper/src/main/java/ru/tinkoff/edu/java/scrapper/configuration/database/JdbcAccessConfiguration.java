@@ -25,22 +25,22 @@ public class JdbcAccessConfiguration {
     private final JdbcTemplate jdbcTemplate;
 
     @Bean
-    public ChatDao getChatDao(){
+    public ChatDao getChatDao() {
         return new ChatDaoImpl(jdbcTemplate);
     }
 
     @Bean
-    public LinkDao getLinkDao(){
+    public LinkDao getLinkDao() {
         return new LinkDaoImpl(jdbcTemplate, getCountOldLinks());
     }
 
     @Bean
-    public LinkService getJdbcLinkService(){
+    public LinkService getJdbcLinkService() {
         return new JdbcLinkService(getChatDao(), getLinkDao());
     }
 
     @Bean
-    public TgChatService getTgChatService(){
+    public TgChatService getTgChatService() {
         return new JdbcTgChatService(getChatDao());
     }
 

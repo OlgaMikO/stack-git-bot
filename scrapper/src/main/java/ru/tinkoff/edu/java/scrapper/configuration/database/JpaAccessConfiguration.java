@@ -28,22 +28,22 @@ public class JpaAccessConfiguration {
     private final LinkRepository linkRepository;
 
     @Bean
-    public ChatDao jpaChatDao(){
+    public ChatDao jpaChatDao() {
         return new JpaChatDao(chatRepository);
     }
 
     @Bean
-    public LinkDao jpaLinkDao(){
+    public LinkDao jpaLinkDao() {
         return new JpaLinkDao(linkRepository, chatRepository);
     }
 
     @Bean
-    public TgChatService jpaTgChatService(){
+    public TgChatService jpaTgChatService() {
         return new JpaTgChatService(jpaChatDao());
     }
 
     @Bean
-    public LinkService jpaLinkService(){
+    public LinkService jpaLinkService() {
         return new JpaLinkService(jpaChatDao(), jpaLinkDao());
     }
 

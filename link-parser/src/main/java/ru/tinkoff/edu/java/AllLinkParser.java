@@ -9,13 +9,13 @@ public class AllLinkParser {
 
     private LinkParser linkParser;
 
-    public AllLinkParser(){
+    public AllLinkParser() {
         LinkParser nullParser = new NullParser(null);
         LinkParser githubParser = new GitHubParser(nullParser);
         linkParser = new StackOverflowParser(githubParser);
     }
 
-    public LinkParser getLinkParser(){
+    public LinkParser getLinkParser() {
         return linkParser;
     }
 

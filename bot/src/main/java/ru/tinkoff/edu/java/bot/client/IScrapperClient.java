@@ -1,10 +1,9 @@
 package ru.tinkoff.edu.java.bot.client;
 
+import java.net.URI;
 import ru.tinkoff.edu.java.bot.dto.LinkResponse;
 import ru.tinkoff.edu.java.bot.dto.ListLinksResponse;
 import ru.tinkoff.edu.java.bot.dto.ScrapperResponse;
-
-import java.net.URI;
 
 public interface IScrapperClient {
 

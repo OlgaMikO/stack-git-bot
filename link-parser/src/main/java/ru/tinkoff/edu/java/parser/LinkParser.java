@@ -1,17 +1,16 @@
 package ru.tinkoff.edu.java.parser;
 
-import ru.tinkoff.edu.java.answer.ParserAnswer;
-
 import java.net.URI;
+import ru.tinkoff.edu.java.answer.ParserAnswer;
 
 public abstract class LinkParser {
     private LinkParser next;
 
-    public LinkParser(LinkParser next){
+    public LinkParser(LinkParser next) {
         this.next = next;
     }
 
-    public LinkParser getNext(){
+    public LinkParser getNext() {
         return next;
     }
 
