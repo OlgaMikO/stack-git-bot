@@ -22,10 +22,10 @@ public final class GitHubAnswer extends ParserAnswer {
 
     @Override
     public String toString() {
-        return "GitHubAnswer{" +
-                "user='" + user + '\'' +
-                ", repository='" + repository + '\'' +
-                '}';
+        return "GitHubAnswer{"
+            + "user='" + user + '\''
+            + ", repository='" + repository + '\''
+            + '}';
     }
 
 }

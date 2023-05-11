@@ -1,8 +1,8 @@
 package ru.tinkoff.edu.java.scrapper.dto.response;
 
+import java.util.ArrayList;
 import lombok.Data;
 
-import java.util.ArrayList;
 @Data
 public class StackOverflowResponseItems {
 

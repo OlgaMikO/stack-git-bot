@@ -1,8 +1,7 @@
 package ru.tinkoff.edu.java.scrapper.domain;
 
-import ru.tinkoff.edu.java.scrapper.dto.entity.Chat;
-
 import java.util.List;
+import ru.tinkoff.edu.java.scrapper.dto.entity.Chat;
 
 public abstract class ChatDao {
 

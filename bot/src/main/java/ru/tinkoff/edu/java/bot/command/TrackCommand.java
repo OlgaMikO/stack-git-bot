@@ -2,10 +2,9 @@ package ru.tinkoff.edu.java.bot.command;
 
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
+import java.net.URI;
 import ru.tinkoff.edu.java.AllLinkParser;
 import ru.tinkoff.edu.java.bot.DataBaseHolder;
-
-import java.net.URI;
 
 public class TrackCommand implements Command {
 

@@ -4,7 +4,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import ru.tinkoff.edu.java.scrapper.dto.request.LinkUpdateRequest;
 import ru.tinkoff.edu.java.scrapper.dto.response.BotResponse;
 
-public class BotClient implements IBotClient{
+public class BotClient implements IBotClient {
 
     private final WebClient.Builder webClientBuilder = WebClient.builder()
             .defaultHeader("Accept", "application/json", "application/*+json")

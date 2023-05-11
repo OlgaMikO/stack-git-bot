@@ -1,6 +1,9 @@
 package ru.tinkoff.edu.java.bot;
 
-public class DataBaseHolder {
+public final class DataBaseHolder {
+
+    private DataBaseHolder() {
+    }
 
     public static IDataBase get() {
         return DataBaseMock.getInstance();

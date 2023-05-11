@@ -10,9 +10,9 @@ public class BadRequestException extends RuntimeException {
 
     private final int statusCode = 400;
 
-    private String description;
+    private final String description;
 
-    public BadRequestException(String description){
+    public BadRequestException(String description) {
         super(description);
         this.description = description;
     }

@@ -1,28 +1,27 @@
 package ru.tinkoff.edu.java.scrapper;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import ru.tinkoff.edu.java.scrapper.client.github.GitHubApiClient;
-import ru.tinkoff.edu.java.scrapper.client.stackoverflow.StackOverflowApiClient;
 import ru.tinkoff.edu.java.scrapper.configuration.ApplicationConfig;
-import ru.tinkoff.edu.java.scrapper.configuration.ClientConfigProperties;
-import ru.tinkoff.edu.java.scrapper.configuration.ClientConfiguration;
+import ru.tinkoff.edu.java.scrapper.configuration.client.ClientConfigProperties;
+import ru.tinkoff.edu.java.scrapper.configuration.client.ClientConfiguration;
 
 @SpringBootApplication
 @EnableConfigurationProperties({ApplicationConfig.class, ClientConfigProperties.class})
 public class ScrapperApplication {
-        public static void main(String[] args) {
-                var ctx = SpringApplication.run(ScrapperApplication.class, args);
-                ApplicationConfig config = ctx.getBean(ApplicationConfig.class);
-                System.out.println(config);
 
-                GitHubApiClient gitHubApiClient = ctx.getBean(ClientConfiguration.class).gitHubApiClient();
-                System.out.println(gitHubApiClient.fetchRepository("OlgaMikO", "stack-git-bot"));
+    private static Logger logger;
 
-                StackOverflowApiClient stackOverflowApiClient = ctx.getBean(ClientConfiguration.class).stackOverflowApiClient();
-                System.out.println(stackOverflowApiClient.fetchQuestion(75868411L));
+    public static void main(String[] args) {
+        var ctx = SpringApplication.run(ScrapperApplication.class, args);
+        ApplicationConfig config = ctx.getBean(ApplicationConfig.class);
+        logger.log(Level.INFO, config.toString());
 
-
-        }
+        GitHubApiClient gitHubApiClient = ctx.getBean(ClientConfiguration.class).gitHubApiClient();
+        logger.log(Level.INFO, gitHubApiClient.fetchRepository("OlgaMikO", "stack-git-bot").toString());
+    }
 }

@@ -1,21 +1,16 @@
-package ru.tinkoff.edu.java.scrapper.configuration;
+package ru.tinkoff.edu.java.scrapper.configuration.client;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import ru.tinkoff.edu.java.scrapper.client.BotClient;
 import ru.tinkoff.edu.java.scrapper.client.github.GitHubApiClient;
 import ru.tinkoff.edu.java.scrapper.client.stackoverflow.StackOverflowApiClient;
 
 @Configuration
+@RequiredArgsConstructor
 public class ClientConfiguration {
 
     private final ClientConfigProperties properties;
-
-    @Autowired
-    public ClientConfiguration(ClientConfigProperties properties){
-        this.properties = properties;
-    }
 
     @Bean
     public GitHubApiClient gitHubApiClient() {
@@ -27,9 +22,5 @@ public class ClientConfiguration {
         return new StackOverflowApiClient(properties.stackOverflowBaseUrl());
     }
 
-    @Bean
-    public BotClient botClient() {
-        return new BotClient(properties.botClientBaseUrl());
-    }
 
 }
