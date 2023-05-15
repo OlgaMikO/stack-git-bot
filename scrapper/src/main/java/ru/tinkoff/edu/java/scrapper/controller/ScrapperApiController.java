@@ -1,7 +1,6 @@
 package ru.tinkoff.edu.java.scrapper.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,8 +9,8 @@ import ru.tinkoff.edu.java.scrapper.dto.request.AddLinkRequest;
 import ru.tinkoff.edu.java.scrapper.dto.request.RemoveLinkRequest;
 import ru.tinkoff.edu.java.scrapper.dto.response.LinkResponse;
 import ru.tinkoff.edu.java.scrapper.dto.response.ListLinksResponse;
-import ru.tinkoff.edu.java.scrapper.service.jdbc.JdbcLinkService;
-import ru.tinkoff.edu.java.scrapper.service.jdbc.JdbcTgChatService;
+import ru.tinkoff.edu.java.scrapper.service.database.jdbc.JdbcLinkService;
+import ru.tinkoff.edu.java.scrapper.service.database.jdbc.JdbcTgChatService;
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -20,18 +19,15 @@ import java.util.stream.Collectors;
 @RestController
 public class ScrapperApiController {
 
-    @Autowired
-    @Qualifier("getLinkService")
-    private JdbcLinkService linkService;
+    private final JdbcLinkService linkService;
+
+    private final JdbcTgChatService tgChatService;
 
     @Autowired
-    @Qualifier("getTgChatService")
-    private JdbcTgChatService tgChatService;
-
-//    public ScrapperApiController(LinkService linkService, TgChatService tgChatService){
-//        this.linkService = linkService;
-//        this.tgChatService = tgChatService;
-//    }
+    public ScrapperApiController(JdbcLinkService linkService, JdbcTgChatService tgChatService){
+        this.linkService = linkService;
+        this.tgChatService = tgChatService;
+    }
 
     @PostMapping("/tg-chat/{id}")
     public ResponseEntity<?> registerChat(@PathVariable("id") Long id) {
