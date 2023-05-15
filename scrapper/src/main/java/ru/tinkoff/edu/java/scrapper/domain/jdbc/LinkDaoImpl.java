@@ -1,11 +1,12 @@
-package ru.tinkoff.edu.java.scrapper.domain;
+package ru.tinkoff.edu.java.scrapper.domain.jdbc;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+import ru.tinkoff.edu.java.scrapper.domain.LinkDao;
 import ru.tinkoff.edu.java.scrapper.dto.entity.Link;
 
 import java.net.URI;
@@ -20,30 +21,17 @@ import java.util.Objects;
 @Repository
 public class LinkDaoImpl extends LinkDao {
 
-    private final int countOldLinks = 10;
+    private final int countOldLinks;
 
     private final JdbcTemplate jdbcTemplate;
 
-    public LinkDaoImpl(JdbcTemplate jdbcTemplate) {
+    @Autowired
+    public LinkDaoImpl(JdbcTemplate jdbcTemplate, int countOldLinks) {
         super();
         this.jdbcTemplate = jdbcTemplate;
+        this.countOldLinks = countOldLinks;
     }
 
-    private RowMapper<Link> rowMapper() {
-        return (resultSet, rowNum) -> {
-            Link link = new Link();
-            link.setId(resultSet.getLong("Id"));
-            link.setUrl(URI.create(resultSet.getString("URL")));
-            link.setChat(resultSet.getLong("Chat"));
-            link.setLastActivity(OffsetDateTime.of(resultSet.getTimestamp("Last_activity").toLocalDateTime(), ZoneOffset.UTC));
-            link.setLastUpdate(OffsetDateTime.of(resultSet.getTimestamp("Last_update").toLocalDateTime(), ZoneOffset.UTC));
-            return link;
-        };
-    }
-
-    public RowMapper<Link> getRowMapper() {
-        return rowMapper();
-    }
 
     @Override
     public long add(Link link) {
@@ -76,27 +64,27 @@ public class LinkDaoImpl extends LinkDao {
     @Override
     public List<Link> findAll() {
         String SQL = "select * from links";
-        return jdbcTemplate.query(SQL, rowMapper());
+        return jdbcTemplate.query(SQL, Mapper.getInstance().getLinkRowMapper());
     }
 
     @Override
-    public Link find(URI url, Long chatId) {
+    public Link findByUrlAndChatId(URI url, Long chatId) {
         String SQL = "select * from links where url = ? and chat = ?";
         return jdbcTemplate.query(SQL, ps -> {
                     ps.setString(1, url.toString());
                     ps.setLong(2, chatId);
                 },
-                rowMapper()).get(0);
+                Mapper.getInstance().getLinkRowMapper()).get(0);
     }
 
-    public List<Link> orderByLastUpdate(){
+    public List<Link> orderByLastUpdate() {
         String SQL = "select * from links order by last_update limit ?";
         return jdbcTemplate.query(SQL, ps -> ps.setInt(1, countOldLinks),
-                rowMapper());
+                Mapper.getInstance().getLinkRowMapper());
     }
 
     @Override
-    public List<Link> findOldLinks(){
+    public List<Link> findOldLinks(Long minutes) {
         return orderByLastUpdate();
     }
 
@@ -104,11 +92,11 @@ public class LinkDaoImpl extends LinkDao {
     public int update(Long id, OffsetDateTime time, Integer answerCount, Integer commentCount) {
         String SQL = "update links set last_update = ?, answer_count = ?, comment_count = ? where id = ?";
         return jdbcTemplate.update(SQL, ps -> {
-                    ps.setTimestamp(1, Timestamp.valueOf(time.atZoneSameInstant(ZoneOffset.UTC).toLocalDateTime()));
-                    ps.setLong(2, answerCount);
-                    ps.setLong(3, commentCount);
-                    ps.setLong(4, id);
-                });
+            ps.setTimestamp(1, Timestamp.valueOf(time.atZoneSameInstant(ZoneOffset.UTC).toLocalDateTime()));
+            ps.setLong(2, answerCount);
+            ps.setLong(3, commentCount);
+            ps.setLong(4, id);
+        });
     }
 
 

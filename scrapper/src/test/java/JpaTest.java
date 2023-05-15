@@ -1,3 +1,4 @@
+import jakarta.transaction.Transactional;
 import liquibase.Contexts;
 import liquibase.LabelExpression;
 import liquibase.Liquibase;
@@ -9,14 +10,11 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.transaction.annotation.Transactional;
 import ru.tinkoff.edu.java.scrapper.ScrapperApplication;
-import ru.tinkoff.edu.java.scrapper.domain.jdbc.ChatDaoImpl;
-import ru.tinkoff.edu.java.scrapper.domain.jdbc.LinkDaoImpl;
-import ru.tinkoff.edu.java.scrapper.domain.jdbc.Mapper;
+import ru.tinkoff.edu.java.scrapper.domain.jpa.JpaChatDao;
+import ru.tinkoff.edu.java.scrapper.domain.jpa.JpaLinkDao;
 import ru.tinkoff.edu.java.scrapper.dto.entity.Chat;
 import ru.tinkoff.edu.java.scrapper.dto.entity.Link;
 
@@ -32,14 +30,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 @ContextConfiguration(classes = ScrapperApplication.class)
-public class JdbcLinkTest extends IntegrationEnvironment {
+public class JpaTest extends IntegrationEnvironment {
 
     @Autowired
-    private LinkDaoImpl linkDao;
+    private JpaChatDao jpaChatDao;
+
     @Autowired
-    private ChatDaoImpl chatDao;
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private JpaLinkDao jpaLinkDao;
 
     @BeforeAll
     public static void setup() throws LiquibaseException, FileNotFoundException {
@@ -49,6 +46,7 @@ public class JdbcLinkTest extends IntegrationEnvironment {
         ResourceAccessor accessor = new DirectoryResourceAccessor(path);
         Liquibase liquibase = new liquibase.Liquibase("migrations/master.xml", accessor, IntegrationEnvironment.getDatabase());
         liquibase.update(new Contexts(), new LabelExpression());
+
     }
 
     @AfterAll
@@ -57,48 +55,34 @@ public class JdbcLinkTest extends IntegrationEnvironment {
     }
 
     @Test
-    @Transactional("transactionManager")
+    @Transactional
     @Rollback
-    void addTest() {
+    void addTest(){
         Chat chat = new Chat(1L);
-        chatDao.add(chat);
+        jpaChatDao.add(chat);
         Link link = new Link(URI.create("https://github.com/OlgaMikO/stack-git-bot"), chat.getId());
-        link.setId(linkDao.add(link));
-        List<Link> linkList = jdbcTemplate.query("select * from links", Mapper.getInstance().getLinkRowMapper());
-        List<Chat> chatList = jdbcTemplate.query("select * from chats", Mapper.getInstance().getChatRowMapper());
+        link.setId(jpaLinkDao.add(link));
+        List<Link> linkList = jpaLinkDao.findAll();
+        List<Chat> chatList = jpaChatDao.findAll();
         System.out.println(chatList);
         assertEquals(link, linkList.get(0));
         assertEquals(chat, chatList.get(0));
     }
 
+    @Test
     @Transactional
     @Rollback
-    @Test
-    void removeTest() {
+    void removeTest(){
         Chat chat = new Chat(1L);
-        chatDao.add(chat);
+        jpaChatDao.add(chat);
         Link link = new Link(URI.create("https://github.com/OlgaMikO/stack-git-bot"), chat.getId());
-        link.setId(linkDao.add(link));
-        linkDao.remove(link.getId());
-        chatDao.remove(chat.getId());
-        List<Link> linkList = jdbcTemplate.query("select * from links", Mapper.getInstance().getLinkRowMapper());
-        List<Chat> chatList = jdbcTemplate.query("select * from chats", Mapper.getInstance().getChatRowMapper());
+        link.setId(jpaLinkDao.add(link));
+        jpaLinkDao.remove(link.getId());
+        jpaChatDao.remove(chat.getId());
+        List<Link> linkList = jpaLinkDao.findAll();
+        List<Chat> chatList = jpaChatDao.findAll();
+        System.out.println(chatList);
         assertEquals(new ArrayList<Link>(), linkList);
         assertEquals(new ArrayList<Chat>(), chatList);
     }
-
-    @Transactional
-    @Rollback
-    @Test
-    void findAllTest() {
-        Chat chat = new Chat(1L);
-        chatDao.add(chat);
-        Link link = new Link(URI.create("https://github.com/OlgaMikO/stack-git-bot"), 1L);
-        link.setId(linkDao.add(link));
-        List<Link> linkList = linkDao.findAll();
-        List<Chat> chatList = chatDao.findAll();
-        assertEquals(linkList, List.of(link));
-        assertEquals(chatList, List.of(chat));
-    }
-
 }

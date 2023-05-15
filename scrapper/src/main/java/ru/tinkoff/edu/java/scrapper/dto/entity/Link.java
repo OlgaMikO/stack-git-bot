@@ -31,4 +31,5 @@ public class Link {
         this.chat = chat;
         this.lastUpdate = OffsetDateTime.now();
     }
+
 }

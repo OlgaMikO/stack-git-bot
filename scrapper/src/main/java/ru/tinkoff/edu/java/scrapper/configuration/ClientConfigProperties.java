@@ -5,8 +5,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @ConfigurationProperties(prefix = "client")
 public record ClientConfigProperties(@NotNull String gitHubBaseUrl,
-                                             @NotNull String stackOverflowBaseUrl,
-                                             @NotNull String botClientBaseUrl) {
-
-
+                                     @NotNull String stackOverflowBaseUrl,
+                                     @NotNull String botClientBaseUrl) {
 }

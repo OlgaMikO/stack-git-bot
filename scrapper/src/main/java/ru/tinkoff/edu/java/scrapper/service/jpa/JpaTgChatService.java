@@ -1,16 +1,16 @@
-package ru.tinkoff.edu.java.scrapper.service.jdbc;
+package ru.tinkoff.edu.java.scrapper.service.jpa;
 
 import org.springframework.dao.DuplicateKeyException;
-import ru.tinkoff.edu.java.scrapper.domain.jdbc.ChatDaoImpl;
+import ru.tinkoff.edu.java.scrapper.domain.jpa.JpaChatDao;
 import ru.tinkoff.edu.java.scrapper.dto.entity.Chat;
 import ru.tinkoff.edu.java.scrapper.exception.NotFoundScrapperException;
 import ru.tinkoff.edu.java.scrapper.service.TgChatService;
 
-public class JdbcTgChatService implements TgChatService {
+public class JpaTgChatService implements TgChatService {
 
-    private final ChatDaoImpl chatDao;
+    private final JpaChatDao chatDao;
 
-    public JdbcTgChatService(ChatDaoImpl chatDao) {
+    public JpaTgChatService(JpaChatDao chatDao) {
         this.chatDao = chatDao;
     }
 
@@ -26,7 +26,7 @@ public class JdbcTgChatService implements TgChatService {
     @Override
     public void unregister(long tgChatId) {
         if (chatDao.findById(tgChatId) == null) {
-            throw new NotFoundScrapperException(tgChatId);
+            throw new NotFoundScrapperException("Пользователь не найден");
         } else {
             chatDao.remove(tgChatId);
         }

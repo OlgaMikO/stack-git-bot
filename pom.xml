@@ -25,6 +25,8 @@
         <jetbrains-annotations.version>23.1.0</jetbrains-annotations.version>
         <maven-surefire-plugin.version>3.0.0</maven-surefire-plugin.version>
         <testcontainers.version>1.18.0</testcontainers.version>
+        <surefire-plugin.version>3.0.0</surefire-plugin.version>
+        <failsafe-plugin.version>3.0.0</failsafe-plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -123,11 +125,13 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-failsafe-plugin</artifactId>
+                    <version>${failsafe-plugin.version}</version>
                 </plugin>
 
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${surefire-plugin.version}</version>
                 </plugin>
             </plugins>
         </pluginManagement>

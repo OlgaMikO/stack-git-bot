@@ -46,7 +46,7 @@ public class LinkUpdaterImpl implements LinkUpdater {
 
     @Override
     public String update() {
-        List<Link> oldLinks = linkDao.findOldLinks();
+        List<Link> oldLinks = linkDao.findOldLinks(0L);
         ParserAnswer answer;
         StringBuilder resultChanges = new StringBuilder();
         String change = "";
@@ -68,19 +68,29 @@ public class LinkUpdaterImpl implements LinkUpdater {
         StringBuilder stringBuilder = new StringBuilder();
         StackOverflowResponse response = stackOverflowClient.fetchQuestion(((StackOverflowAnswer) answer).getQuestionID());
         if (response.getActivity().isAfter(link.getLastActivity())) {
-            if(!Objects.equals(response.getAnswerCount(), link.getAnswerCount())){
-                if(link.getAnswerCount() != null){
-                    stringBuilder.append("Появился новый ответ");
-                }
-            }
-            if(!Objects.equals(response.getCommentCount(), link.getCommentCount())){
-                if(link.getCommentCount() != null){
-                    stringBuilder.append("Появился новый комментарий");
-                }
-            }
+            stringBuilder.append(answerUpdater(link, response));
+            stringBuilder.append(commentUpdater(link, response));
             linkDao.update(link.getId(), OffsetDateTime.now(), response.getAnswerCount(), response.getCommentCount());
         }
         return stringBuilder.toString();
+    }
+
+    private String answerUpdater(Link link, StackOverflowResponse response){
+        if(!Objects.equals(response.getAnswerCount(), link.getAnswerCount())){
+            if(link.getAnswerCount() != null){
+                return "Появился новый ответ";
+            }
+        }
+        return "";
+    }
+
+    private String commentUpdater(Link link, StackOverflowResponse response){
+        if(!Objects.equals(response.getCommentCount(), link.getCommentCount())){
+            if(link.getCommentCount() != null){
+                return "Появился новый комментарий";
+            }
+        }
+        return "";
     }
 
     public String gitHubUpdate(Link link, ParserAnswer answer) {

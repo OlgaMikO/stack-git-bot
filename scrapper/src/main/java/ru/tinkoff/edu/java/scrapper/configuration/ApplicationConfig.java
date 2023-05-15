@@ -7,7 +7,7 @@ import org.springframework.validation.annotation.Validated;
 
 @Validated
 @ConfigurationProperties(prefix = "scrapper.app", ignoreUnknownFields = false)
-public record ApplicationConfig(@NotNull String test, @NotNull Scheduler scheduler) {
+public record ApplicationConfig(@NotNull String test, @NotNull Scheduler scheduler, @NotNull AccessType databaseAccessType) {
 
     @Bean
     public Long getInterval(){
