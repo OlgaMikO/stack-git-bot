@@ -20,6 +20,9 @@ public class GitHubParser extends LinkParser {
     }
 
     public boolean matchLink(URI link) {
+        if (link.getAuthority() == null) {
+            return false;
+        }
         return link.getAuthority().equals("github.com");
     }
 
