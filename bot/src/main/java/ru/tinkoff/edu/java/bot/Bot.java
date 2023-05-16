@@ -9,6 +9,7 @@ import com.pengrad.telegrambot.request.SetMyCommands;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import ru.tinkoff.edu.java.bot.processor.MessageProcessor;
+import ru.tinkoff.edu.java.bot.service.MessageCount;
 
 @Component
 public class Bot {
@@ -16,8 +17,11 @@ public class Bot {
 
     private final MessageProcessor messageProcessor;
 
-    public Bot(@Qualifier("getToken") String token, MessageProcessor processor) {
+    private final MessageCount messageCount;
+
+    public Bot(@Qualifier("getToken") String token, MessageProcessor processor, MessageCount messageCount) {
         messageProcessor = processor;
+        this.messageCount = messageCount;
         messageProcessor.initCommandsMap();
         BotCommand[] array = new BotCommand[messageProcessor.commands().size()];
         for (int i = 0; i < array.length; i++) {
@@ -31,6 +35,7 @@ public class Bot {
             for (Update update : updates) {
                 if (update.message() != null) {
                     telegramBot.execute(messageProcessor.process(update));
+                    messageCount.incrementCounter();
                 }
             }
             return UpdatesListener.CONFIRMED_UPDATES_ALL;
