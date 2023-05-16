@@ -1,10 +1,9 @@
 package ru.tinkoff.edu.java.bot.dto;
 
+import java.util.ArrayList;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NonNull;
-
-import java.util.ArrayList;
 
 @Data
 @AllArgsConstructor

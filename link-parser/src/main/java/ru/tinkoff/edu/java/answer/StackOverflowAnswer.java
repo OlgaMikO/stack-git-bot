@@ -15,8 +15,6 @@ public final class StackOverflowAnswer extends ParserAnswer {
 
     @Override
     public String toString() {
-        return "StackOverflowAnswer{" +
-                "questionID=" + questionID +
-                '}';
+        return "StackOverflowAnswer{" + "questionID=" + questionID + '}';
     }
 }

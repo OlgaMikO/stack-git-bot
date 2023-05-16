@@ -1,22 +1,22 @@
 package ru.tinkoff.edu.java.scrapper.domain.jdbc;
 
+import java.net.URI;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import org.springframework.jdbc.core.RowMapper;
 import ru.tinkoff.edu.java.scrapper.dto.entity.Chat;
 import ru.tinkoff.edu.java.scrapper.dto.entity.Link;
 
-import java.net.URI;
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
-
-
+@SuppressWarnings({"FinalClass"})
 public class Mapper {
 
     private static Mapper instance;
 
-    private Mapper(){}
+    private Mapper() {
+    }
 
-    public static Mapper getInstance(){
-        if(instance == null){
+    public static Mapper getInstance() {
+        if (instance == null) {
             instance = new Mapper();
         }
         return instance;
@@ -36,8 +36,14 @@ public class Mapper {
             link.setId(resultSet.getLong("Id"));
             link.setUrl(URI.create(resultSet.getString("URL")));
             link.setChat(resultSet.getLong("Chat"));
-            link.setLastActivity(OffsetDateTime.of(resultSet.getTimestamp("Last_activity").toLocalDateTime(), ZoneOffset.UTC));
-            link.setLastUpdate(OffsetDateTime.of(resultSet.getTimestamp("Last_update").toLocalDateTime(), ZoneOffset.UTC));
+            link.setLastActivity(OffsetDateTime.of(
+                resultSet.getTimestamp("Last_activity").toLocalDateTime(),
+                ZoneOffset.UTC
+            ));
+            link.setLastUpdate(OffsetDateTime.of(
+                resultSet.getTimestamp("Last_update").toLocalDateTime(),
+                ZoneOffset.UTC
+            ));
             return link;
         };
     }

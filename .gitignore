@@ -41,3 +41,4 @@ build/
 .DS_Store
 /.idea/
 /scrapper/src/main/java/ru/tinkoff/edu/java/scrapper/domain/jooq/
+/rabbitmq/

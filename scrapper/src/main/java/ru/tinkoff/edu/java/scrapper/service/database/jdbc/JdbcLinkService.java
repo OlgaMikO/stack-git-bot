@@ -1,31 +1,29 @@
-package ru.tinkoff.edu.java.scrapper.service.jdbc;
-
-import ru.tinkoff.edu.java.scrapper.domain.jdbc.ChatDaoImpl;
-import ru.tinkoff.edu.java.scrapper.domain.jdbc.LinkDaoImpl;
-import ru.tinkoff.edu.java.scrapper.dto.entity.Link;
-import ru.tinkoff.edu.java.scrapper.exception.NotFoundScrapperException;
-import ru.tinkoff.edu.java.scrapper.service.LinkService;
+package ru.tinkoff.edu.java.scrapper.service.database.jdbc;
 
 import java.net.URI;
 import java.util.Collection;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
+import ru.tinkoff.edu.java.scrapper.domain.ChatDao;
+import ru.tinkoff.edu.java.scrapper.domain.LinkDao;
+import ru.tinkoff.edu.java.scrapper.dto.entity.Link;
+import ru.tinkoff.edu.java.scrapper.exception.NotFoundScrapperException;
+import ru.tinkoff.edu.java.scrapper.service.database.LinkService;
 
+@RequiredArgsConstructor
 public class JdbcLinkService implements LinkService {
 
-    private final ChatDaoImpl chatDao;
+    private final ChatDao chatDao;
 
-    private final LinkDaoImpl linkDao;
+    private final LinkDao linkDao;
 
-    public JdbcLinkService(ChatDaoImpl chatDao, LinkDaoImpl linkDao) {
-        this.chatDao = chatDao;
-        this.linkDao = linkDao;
-    }
+    private static final String USER_NOT_FOUND = "Пользователь не найден";
 
     @Override
     public Link add(long tgChatId, URI url) {
         Link link = new Link(url, tgChatId);
         if (chatDao.findById(tgChatId) == null) {
-            throw new NotFoundScrapperException(tgChatId);
+            throw new NotFoundScrapperException(USER_NOT_FOUND, tgChatId);
         } else {
             link.setId(linkDao.add(link));
         }
@@ -39,11 +37,11 @@ public class JdbcLinkService implements LinkService {
     public Link remove(long tgChatId, URI url) {
         Link link = new Link(url, tgChatId);
         if (chatDao.findById(tgChatId) == null) {
-            throw new NotFoundScrapperException(tgChatId);
+            throw new NotFoundScrapperException(USER_NOT_FOUND, tgChatId);
         } else {
             Long id = linkDao.findByUrlAndChatId(url, tgChatId).getId();
             if (id == null) {
-                throw new NotFoundScrapperException("Ссылка не найдена");
+                throw new NotFoundScrapperException("Ссылка не найдена", tgChatId);
             } else {
                 link.setId(id);
                 linkDao.remove(id);
@@ -56,12 +54,11 @@ public class JdbcLinkService implements LinkService {
     public Collection<Link> listAll(long tgChatId) {
         List<Link> links;
         if (chatDao.findById(tgChatId) == null) {
-            throw new NotFoundScrapperException(tgChatId);
+            throw new NotFoundScrapperException(USER_NOT_FOUND, tgChatId);
         } else {
             links = linkDao.findAll();
         }
         return links;
     }
-
 
 }

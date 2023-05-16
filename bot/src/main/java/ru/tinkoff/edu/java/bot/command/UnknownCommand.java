@@ -3,7 +3,7 @@ package ru.tinkoff.edu.java.bot.command;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 
-public class UnknownCommand implements Command{
+public class UnknownCommand implements Command {
 
     @Override
     public String command() {

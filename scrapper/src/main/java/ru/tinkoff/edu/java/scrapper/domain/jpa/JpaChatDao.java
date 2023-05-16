@@ -1,24 +1,18 @@
 package ru.tinkoff.edu.java.scrapper.domain.jpa;
 
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
 import ru.tinkoff.edu.java.scrapper.domain.ChatDao;
 import ru.tinkoff.edu.java.scrapper.dto.entity.Chat;
 import ru.tinkoff.edu.java.scrapper.dto.entity.jpa.JpaChat;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-
+@RequiredArgsConstructor
 public class JpaChatDao extends ChatDao {
 
     private final ChatRepository chatRepository;
-
-    @Autowired
-    public JpaChatDao(ChatRepository chatRepository) {
-        this.chatRepository = chatRepository;
-    }
 
     private JpaChat toJpaChat(Chat chat) {
         JpaChat jpaChat = new JpaChat();

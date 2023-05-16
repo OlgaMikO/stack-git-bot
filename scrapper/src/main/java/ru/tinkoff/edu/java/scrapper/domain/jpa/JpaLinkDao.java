@@ -1,29 +1,23 @@
 package ru.tinkoff.edu.java.scrapper.domain.jpa;
 
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
-import ru.tinkoff.edu.java.scrapper.domain.LinkDao;
-import ru.tinkoff.edu.java.scrapper.dto.entity.Link;
-import ru.tinkoff.edu.java.scrapper.dto.entity.jpa.JpaChat;
-import ru.tinkoff.edu.java.scrapper.dto.entity.jpa.JpaLink;
-
 import java.net.URI;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
+import ru.tinkoff.edu.java.scrapper.domain.LinkDao;
+import ru.tinkoff.edu.java.scrapper.dto.entity.Link;
+import ru.tinkoff.edu.java.scrapper.dto.entity.jpa.JpaChat;
+import ru.tinkoff.edu.java.scrapper.dto.entity.jpa.JpaLink;
 
+@RequiredArgsConstructor
 public class JpaLinkDao extends LinkDao {
 
     private final LinkRepository linkRepository;
 
     private final ChatRepository chatRepository;
-
-    @Autowired
-    public JpaLinkDao(LinkRepository linkRepository, ChatRepository chatRepository) {
-        this.linkRepository = linkRepository;
-        this.chatRepository = chatRepository;
-    }
 
     private JpaLink toJpaLink(Link link) {
         JpaLink jpaLink = new JpaLink();
@@ -40,6 +34,9 @@ public class JpaLinkDao extends LinkDao {
     }
 
     private Link toLink(JpaLink jpaLink) {
+        if (jpaLink == null) {
+            return null;
+        }
         Link link = new Link();
         link.setId(jpaLink.getId());
         link.setUrl(jpaLink.getUrl());
@@ -71,8 +68,7 @@ public class JpaLinkDao extends LinkDao {
 
     @Override
     public List<Link> findAll() {
-        List<JpaLink> jpaLinks = linkRepository.findAll();
-        return jpaLinks.stream().map(this::toLink).collect(Collectors.toList());
+        return linkRepository.findAll().stream().map(this::toLink).collect(Collectors.toList());
     }
 
     @Override
